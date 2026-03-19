@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import { motion } from 'framer-motion';
 import {
   Percent, DollarSign, Settings, ShieldCheck,
-  Trophy, ShoppingCart, Zap, Gift,
+  Trophy, Zap, Gift,
   RotateCcw, Gamepad2, Phone, Megaphone,
   BarChart, Target, ArrowUpRight, Users, MessageCircle
 } from 'lucide-react';
@@ -17,32 +17,30 @@ const translations = {
     navReg: 'Регистрация',
     heroLine1: 'Монетизируй гемблинг',
     heroLine2: 'на максимум',
-    heroType: 'Прямой рекламодатель Grizzly Casino. Лей трафик на свежий бренд и забирай до 50% RevShare',
+    heroType: 'Прямой рекламодатель Grizzly Casino. Лей трафик на свежий бренд и забирай до 40% RevShare',
     feature1: 'Мгновенная регистрация',
     feature2: 'Персональный менеджер',
     feature3: 'RevShare / CPA / Hybrid',
     heroBtn: 'Регистрация в Grizzly',
     modelsTitle1: 'Высокие конверсии ',
     modelsTitle2: 'для RU/CIS трафика и удобные payout-модели',
-    rsTitle: 'RS до 50%',
+    rsTitle: 'RS до 40%',
     rsDesc: 'Без переноса минусов',
     hybridTitle: 'Hybrid',
     hybridDesc: 'Настроим гибкие комиссии под ваши источники',
-    cpaTitle: 'CPA до $200',
+    cpaTitle: 'CPA до $100',
     cpaDesc: 'Прозрачные KPI, быстрые выплаты до 2 раз в месяц',
     otherTitle: 'Прочие модели',
     otherDesc: 'Фиксы, флэты за листинги, гаранты – рассмотрим всё',
     becomePartner: 'Стать партнёром',
-    pf1: '7% еженедельно для всех игроков',
-    pf2: 'Еженедельный турнир на ₽500,000',
-    pf3: 'Магазин бонусов',
-    pf4: 'До 60 минут, крипта — до 15 минут',
-    pf5: 'Депозиты и выводы без верификации',
-    pf6: 'ТОП провайдеры, 3000+ слотов',
-    pf7: 'Reload Bonus каждый понедельник и пятницу',
-    pf8: 'Колесо фортуны два раза в неделю',
+    pf1: 'До 15% кешбэка каждую неделю',
+    pf2: 'Депозиты и выводы без верификации',
+    pf3: 'Ежемесячный турнир на 2.000.000 рублей',
+    pf4: 'Выводы до 60 мин на карту, крипта — до 15 минут',
+    pf5: 'ТОП провайдеры, 8000+ слотов',
+    pf6: 'Колесо фортуны для стримеров',
     pfText: 'Работаем с 2024 года, постоянно развиваем наш бренд. Регистрируйся в нашей партнерской программе и стань одним из тех, кто будет заливать на топовую базу.',
-    pfBtn: 'Получить эксклюзивные 50%',
+    pfBtn: 'Получить эксклюзивные 40%',
     abTitle: 'Быстрые и системные выплаты',
     abSub: 'без дополнительных комиссий',
     ab1: 'Быстрые выплаты партнерам без лишних проверок',
@@ -69,32 +67,30 @@ const translations = {
     navReg: 'Sign Up',
     heroLine1: 'Monetize gambling',
     heroLine2: 'to the maximum',
-    heroType: 'Direct advertiser for Grizzly Casino. Drive traffic to a fresh brand and get up to 50% RevShare',
+    heroType: 'Direct advertiser for Grizzly Casino. Drive traffic to a fresh brand and get up to 40% RevShare',
     feature1: 'Instant registration',
     feature2: 'Personal manager',
     feature3: 'RevShare / CPA / Hybrid',
     heroBtn: 'Register in Grizzly',
     modelsTitle1: 'High conversions ',
     modelsTitle2: 'for RU/CIS traffic and convenient payout models',
-    rsTitle: 'RS up to 50%',
+    rsTitle: 'RS up to 40%',
     rsDesc: 'No negative carryover',
     hybridTitle: 'Hybrid',
     hybridDesc: 'Flexible commissions tailored to your traffic sources',
-    cpaTitle: 'CPA up to $200',
+    cpaTitle: 'CPA up to $100',
     cpaDesc: 'Transparent KPIs, fast payouts up to twice a month',
     otherTitle: 'Other models',
     otherDesc: 'Fixed fees, flat fees for listings, guarantees – we consider everything',
     becomePartner: 'Become a Partner',
-    pf1: '7% weekly for all players',
-    pf2: 'Weekly tournament for €5,000',
-    pf3: 'Bonus shop',
-    pf4: 'Up to 60 mins, crypto — up to 15 mins',
-    pf5: 'Deposits and withdrawals without KYC',
-    pf6: 'TOP providers, 3000+ slots',
-    pf7: 'Reload Bonus every Monday and Friday',
-    pf8: 'Fortune wheel twice a week',
+    pf1: 'Up to 15% cashback every week',
+    pf2: 'Deposits and withdrawals without KYC',
+    pf3: 'Monthly tournament for €20,000',
+    pf4: 'Cards up to 60 mins, crypto up to 15 mins',
+    pf5: 'TOP providers, 8000+ slots',
+    pf6: 'Fortune wheel for streamers',
     pfText: 'We have been constantly developing our brand since 2024. Register in our affiliate program and become one of those who will drive traffic to a top-tier database.',
-    pfBtn: 'Get exclusive 50%',
+    pfBtn: 'Get exclusive 40%',
     abTitle: 'Fast and systemic payouts',
     abSub: 'without additional fees',
     ab1: 'Fast payouts to partners without unnecessary checks',
@@ -125,15 +121,12 @@ const Navbar = () => {
   const { lang, setLang, t } = useContext(LangContext);
 
   return (
-    <nav style={{
+    <nav className="navbar" style={{
       position: 'fixed',
-      top: '1.5rem',
       left: '50%',
       transform: 'translateX(-50%)',
-      width: '95%',
       maxWidth: '1200px',
       zIndex: 100,
-      padding: '0.5rem 1.5rem',
       background: 'rgba(20, 10, 35, 0.6)',
       backdropFilter: 'blur(20px)',
       border: '1px solid rgba(139, 61, 255, 0.1)',
@@ -194,46 +187,93 @@ const Navbar = () => {
 };
 
 const Typewriter = ({ text, delay = 0, langKey }: { text: string, delay?: number, langKey: string }) => {
-  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [showCursor, setShowCursor] = useState(false);
 
   useEffect(() => {
-    setDisplayedText(''); // Reset when text changes (e.g. language change)
-    let timer: any;
-    let interval: any;
+    setCurrentIndex(0);
+    setShowCursor(false);
+    let isCancelled = false;
 
-    timer = setTimeout(() => {
+    const animate = async () => {
+      await new Promise(resolve => setTimeout(resolve, delay * 1000));
+      if (isCancelled) return;
       setShowCursor(true);
-      let i = 0;
-      interval = setInterval(() => {
-        setDisplayedText(text.slice(0, i + 1));
-        i++;
-        if (i >= text.length) clearInterval(interval);
-      }, 40);
-    }, delay * 1000);
+
+      while (!isCancelled) {
+        // Typing forward
+        for (let i = 1; i <= text.length; i++) {
+          setCurrentIndex(i);
+          await new Promise(resolve => setTimeout(resolve, 40));
+          if (isCancelled) return;
+        }
+
+        // Wait 5 seconds
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        if (isCancelled) return;
+
+        // Erasing backward
+        for (let i = text.length - 1; i >= 0; i--) {
+          setCurrentIndex(i);
+          await new Promise(resolve => setTimeout(resolve, 20)); // erasing faster
+          if (isCancelled) return;
+        }
+
+        // Wait before typing again
+        await new Promise(resolve => setTimeout(resolve, 500));
+        if (isCancelled) return;
+      }
+    };
+
+    animate();
 
     return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
+      isCancelled = true;
     };
   }, [text, delay, langKey]);
 
   return (
     <span>
-      {displayedText}
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{ repeat: Infinity, duration: 0.8 }}
-        style={{
-          display: 'inline-block',
-          width: '2px',
-          height: '1.2em',
-          background: 'var(--primary)',
-          verticalAlign: 'middle',
-          marginLeft: '4px',
-          opacity: showCursor ? 1 : 0
-        }}
-      />
+      {text.split('').map((char, index) => {
+        const isVisible = index < currentIndex;
+        const isCursorHere = index === currentIndex;
+
+        return (
+          <span key={index} style={{ position: 'relative' }}>
+            {isCursorHere && showCursor && (
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ repeat: Infinity, duration: 0.8 }}
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  top: '0.1em',
+                  bottom: '0.1em',
+                  width: '2px',
+                  background: 'var(--primary)'
+                }}
+              />
+            )}
+            <span style={{ opacity: isVisible ? 1 : 0 }}>{char}</span>
+          </span>
+        );
+      })}
+      {currentIndex === text.length && showCursor && (
+        <span style={{ position: 'relative' }}>
+          <motion.span
+            animate={{ opacity: [1, 0] }}
+            transition={{ repeat: Infinity, duration: 0.8 }}
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '0.1em',
+              bottom: '0.1em',
+              width: '2px',
+              background: 'var(--primary)'
+            }}
+          />
+        </span>
+      )}
     </span>
   );
 };
@@ -242,17 +282,17 @@ const Hero = () => {
   const { t, lang } = useContext(LangContext);
 
   return (
-    <section className="section" style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', paddingTop: '100px', position: 'relative' }}>
+    <section className="section hero-section" style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
       <div className="bg-gradient-overlay" />
       <div className="container" style={{ textAlign: 'center', maxWidth: '1000px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
         <motion.h1
           key={lang + '-h1'}
+          className="hero-title"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           style={{
-            fontSize: 'clamp(3rem, 7vw, 5.5rem)',
             fontWeight: 800,
             lineHeight: 1.1,
             letterSpacing: '-0.02em',
@@ -265,16 +305,14 @@ const Hero = () => {
         </motion.h1>
 
         <motion.div
+          className="hero-subtitle"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
           style={{
-            fontSize: 'clamp(1.2rem, 2.5vw, 1.75rem)',
             color: 'var(--text-main)',
-            marginBottom: '2rem',
             maxWidth: '850px',
-            fontWeight: 500,
-            minHeight: '3em' // Prevents layout shift during typing
+            fontWeight: 500
           }}
         >
           <Typewriter
@@ -286,15 +324,14 @@ const Hero = () => {
 
         <motion.div
           key={lang + '-features'}
+          className="hero-features"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.5 }} // Shows up after typing is roughly done
           style={{
             display: 'flex',
-            gap: '2rem',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            marginBottom: '3.5rem',
             color: 'var(--text-muted)',
             fontSize: '1rem',
             fontWeight: 500
@@ -322,16 +359,7 @@ const Hero = () => {
         >
           <a
             href="https://a.grizzly-partner.com/welcome/register"
-            className="btn btn-primary shine-effect"
-            style={{
-              padding: '1.25rem 3rem',
-              fontSize: '1.15rem',
-              fontWeight: 600,
-              borderRadius: '16px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px',
-              color: 'white'
-            }}
+            className="btn btn-primary shine-effect hero-main-btn"
           >
             {t.heroBtn}
           </a>
@@ -362,6 +390,13 @@ const Hero = () => {
 
 const PaymentModels = () => {
   const { t } = useContext(LangContext);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth <= 1024 : false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const models = [
     { title: t.rsTitle, desc: t.rsDesc, icon: <Percent size={24} /> },
@@ -384,7 +419,7 @@ const PaymentModels = () => {
             initial={{ scale: 0.8, opacity: 0, rotate: 15 }}
             whileInView={{ scale: 1, opacity: 1, rotate: 15 }}
             animate={{ y: [0, -20, 0] }}
-            transition={{ 
+            transition={{
               scale: { duration: 0.6 },
               opacity: { duration: 0.6 },
               y: { repeat: Infinity, duration: 6, ease: "easeInOut" }
@@ -404,12 +439,26 @@ const PaymentModels = () => {
 
           <div className="grid-models" style={{ display: 'grid', gap: '6rem', justifyContent: 'space-between', width: '100%', position: 'relative', zIndex: 2 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-              <motion.div initial={{ x: -50, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} animate={{ y: [0, -10, 0] }} transition={{ x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 5, ease: "easeInOut" } }} viewport={{ once: true }} className="nova-card">
+              <motion.div
+                initial={isMobile ? { opacity: 0, y: 15 } : { x: -50, opacity: 0 }}
+                whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1 }}
+                animate={isMobile ? {} : { y: [0, -10, 0] }}
+                transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 5, ease: "easeInOut" } }}
+                viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
+                className="nova-card"
+              >
                 <div className="nova-icon-box">{models[0].icon}</div>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{models[0].title}</h3>
                 <p className="text-muted" style={{ fontSize: '0.9rem' }}>{models[0].desc}</p>
               </motion.div>
-              <motion.div initial={{ x: -50, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} animate={{ y: [0, -10, 0] }} transition={{ delay: 0.2, x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 } }} viewport={{ once: true }} className="nova-card">
+              <motion.div
+                initial={isMobile ? { opacity: 0, y: 15 } : { x: -50, opacity: 0 }}
+                whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1 }}
+                animate={isMobile ? {} : { y: [0, -10, 0] }}
+                transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { delay: 0.2, x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 } }}
+                viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
+                className="nova-card"
+              >
                 <div className="nova-icon-box">{models[2].icon}</div>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{models[2].title}</h3>
                 <p className="text-muted" style={{ fontSize: '0.9rem' }}>{models[2].desc}</p>
@@ -417,12 +466,26 @@ const PaymentModels = () => {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-              <motion.div initial={{ x: 50, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} animate={{ y: [0, -12, 0] }} transition={{ x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 } }} viewport={{ once: true }} className="nova-card">
+              <motion.div
+                initial={isMobile ? { opacity: 0, y: 15 } : { x: 50, opacity: 0 }}
+                whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1 }}
+                animate={isMobile ? {} : { y: [0, -12, 0] }}
+                transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 } }}
+                viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
+                className="nova-card"
+              >
                 <div className="nova-icon-box">{models[1].icon}</div>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{models[1].title}</h3>
                 <p className="text-muted" style={{ fontSize: '0.9rem' }}>{models[1].desc}</p>
               </motion.div>
-              <motion.div initial={{ x: 50, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} animate={{ y: [0, -8, 0] }} transition={{ delay: 0.2, x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 1.5 } }} viewport={{ once: true }} className="nova-card">
+              <motion.div
+                initial={isMobile ? { opacity: 0, y: 15 } : { x: 50, opacity: 0 }}
+                whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1 }}
+                animate={isMobile ? {} : { y: [0, -8, 0] }}
+                transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { delay: 0.2, x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 1.5 } }}
+                viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
+                className="nova-card"
+              >
                 <div className="nova-icon-box">{models[3].icon}</div>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{models[3].title}</h3>
                 <p className="text-muted" style={{ fontSize: '0.9rem' }}>{models[3].desc}</p>
@@ -442,14 +505,12 @@ const PaymentModels = () => {
 const PlayersFeatures = () => {
   const { t } = useContext(LangContext);
   const features = [
-    { text: t.pf1, icon: <Percent size={32} /> },
-    { text: t.pf2, icon: <Trophy size={32} /> },
-    { text: t.pf3, icon: <ShoppingCart size={32} /> },
-    { text: t.pf4, icon: <DollarSign size={32} /> },
-    { text: t.pf5, icon: <ShieldCheck size={32} /> },
-    { text: t.pf6, icon: <Gamepad2 size={32} /> },
-    { text: t.pf7, icon: <Gift size={32} /> },
-    { text: t.pf8, icon: <RotateCcw size={32} /> },
+    { text: t.pf1, icon: <RotateCcw size={32} /> },
+    { text: t.pf2, icon: <ShieldCheck size={32} /> },
+    { text: t.pf3, icon: <Trophy size={32} /> },
+    { text: t.pf4, icon: <Zap size={32} /> },
+    { text: t.pf5, icon: <Gamepad2 size={32} /> },
+    { text: t.pf6, icon: <Gift size={32} /> },
   ];
 
   return (
@@ -581,8 +642,39 @@ const Footer = () => {
   );
 };
 
+const getInitialLang = (): Lang => {
+  if (typeof window === 'undefined') return 'ru';
+  const path = window.location.pathname;
+  if (path.startsWith('/ru')) return 'ru';
+  if (path.startsWith('/en')) return 'en';
+
+  const browserLang = navigator.language || (navigator as any).userLanguage || '';
+  return browserLang.toLowerCase().startsWith('ru') ? 'ru' : 'en';
+};
+
 function App() {
-  const [lang, setLang] = useState<Lang>('ru');
+  const [lang, setLangState] = useState<Lang>(getInitialLang);
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (!path.startsWith('/ru') && !path.startsWith('/en')) {
+      window.history.replaceState(null, '', `/${lang}${window.location.search}${window.location.hash}`);
+    }
+
+    const handlePopState = () => {
+      const currentPath = window.location.pathname;
+      if (currentPath.startsWith('/ru')) setLangState('ru');
+      else if (currentPath.startsWith('/en')) setLangState('en');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [lang]);
+
+  const setLang = (newLang: Lang) => {
+    if (newLang === lang) return;
+    setLangState(newLang);
+    window.history.pushState(null, '', `/${newLang}${window.location.search}${window.location.hash}`);
+  };
 
   return (
     <LangContext.Provider value={{ lang, setLang, t: translations[lang] }}>
