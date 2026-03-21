@@ -69,7 +69,7 @@ const translations = {
     pf9: 'Еженедельные лотереи.',
     pf10: 'Уникальные retention-решения с помощью email, telegram и тд.',
     pfText: 'Работаем с 2024 года, постоянно развиваем наш бренд. Регистрируйся в нашей партнерской программе и стань одним из тех, кто будет заливать на топовую базу.',
-    pfBtn: 'Получить эксклюзивные 70%',
+    pfBtn: 'Получить эксклюзивные условия',
     abTitle: 'Быстрые и системные выплаты',
     abSub: 'без дополнительных комиссий',
     ab1: 'Быстрые выплаты партнерам\nбез лишних проверок',
@@ -135,7 +135,7 @@ const translations = {
     pf9: 'Weekly lotteries.',
     pf10: 'Unique retention solutions via email, telegram, etc.',
     pfText: 'We have been constantly developing our brand since 2024. Register in our affiliate program and become one of those who will drive traffic to a top-tier database.',
-    pfBtn: 'Get exclusive 70%',
+    pfBtn: 'Get exclusive conditions',
     abTitle: 'Fast and systemic payouts',
     abSub: 'without additional fees',
     ab1: 'Fast payouts to partners\nwithout unnecessary checks',
@@ -445,49 +445,19 @@ const Hero = () => {
         </motion.div>
 
         <motion.div
-          key={lang + '-features'}
-          className="hero-features"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.5 }} // Shows up after typing is roughly done
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            color: 'var(--text-muted)',
-            fontSize: '1rem',
-            fontWeight: 500
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)' }} />
-            {t.feature1}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)' }} />
-            {t.feature2}
-          </div>
-          {t.feature3 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)' }} />
-              {t.feature3}
-            </div>
-          )}
-        </motion.div>
-
-        <motion.div
-          key={lang + '-btn'}
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 2.8 }}
-        >
-          <a
-            href="https://a.grizzly-partner.com/welcome/register"
-            className="btn btn-primary shine-effect hero-main-btn"
+            key={lang + '-btn'}
+            className="hero-btn-wrap"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 2.8 }}
           >
-            {t.heroBtn}
-          </a>
-        </motion.div>
+            <a
+              href="https://a.grizzly-partner.com/welcome/register"
+              className="btn btn-primary shine-effect hero-main-btn"
+            >
+              {t.heroBtn}
+            </a>
+          </motion.div>
       </div>
 
       <motion.div
@@ -619,7 +589,7 @@ const PaymentModels = ({ onTermsClick }: { onTermsClick: () => void }) => {
           </div>
         </div>
 
-        <div className="text-center" style={{ marginTop: '5rem' }}>
+        <div className="text-center btn-margin-top" style={{ marginTop: '2.5rem' }}>
           <button onClick={onTermsClick} className="btn btn-primary" style={{ padding: '1rem 3rem' }}>{t.becomePartner}</button>
         </div>
       </div>
@@ -811,20 +781,17 @@ const PlayersFeatures = () => {
           className="nova-card" style={{ padding: '3rem 4rem' }}>
           <div className="grid-2-to-1" style={{ display: 'grid', gap: '2rem 6rem' }}>
             {features.map((f, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1rem' }}>
-                <p style={{ fontWeight: 500, fontSize: '1rem', maxWidth: '320px', margin: 0, lineHeight: 1.4, color: '#e5e5e5' }}>{f.text}</p>
-                <div style={{ color: 'var(--primary)', opacity: 0.8, transform: 'scale(1)' }}>
+              <div key={i} className="player-feature-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1rem' }}>
+                <p className="player-feature-text" style={{ fontWeight: 500, maxWidth: '320px', margin: 0, lineHeight: 1.4, color: '#e5e5e5' }}>{f.text}</p>
+                <div className="player-feature-icon" style={{ color: 'var(--primary)', opacity: 0.8 }}>
                   {f.icon}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="hero-flex-mobile" style={{ marginTop: '4rem', padding: '2.5rem', background: '#1c1626', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem' }}>
-            <p style={{ maxWidth: '600px', margin: 0, color: 'var(--text-main)', lineHeight: 1.6 }}>
-              {t.pfText}
-            </p>
-            <a href="https://a.grizzly-partner.com/welcome/register" className="btn btn-primary" style={{ flexShrink: 0, width: '100%', maxWidth: '300px', textAlign: 'center' }}>{t.pfBtn}</a>
+          <div className="text-center pf-container" style={{ marginTop: '4rem', padding: '2.5rem', background: '#1c1626', borderRadius: '16px', display: 'flex', justifyContent: 'center' }}>
+            <a href="https://a.grizzly-partner.com/welcome/register" className="btn btn-primary pf-main-btn" style={{ flexShrink: 0, width: '100%', maxWidth: '350px', textAlign: 'center' }}>{t.pfBtn}</a>
           </div>
         </motion.div>
       </div>
@@ -846,11 +813,6 @@ const AffiliateBenefits = () => {
   return (
     <section id="partners" className="section">
       <div className="container">
-        <h2 className="heading-lg text-center" style={{ maxWidth: '800px', margin: '0 auto 5rem', lineHeight: '1.3' }}>
-          {t.abTitle} <br />
-          {t.abSub}
-        </h2>
-
         <div className="grid-benefits" style={{ display: 'grid', gap: '1px', border: '1px solid rgba(139, 61, 255, 0.1)', borderRadius: '16px', overflow: 'hidden', background: 'rgba(139, 61, 255, 0.1)' }}>
           {benefits.map((b, i) => (
             <motion.div
@@ -953,13 +915,13 @@ const Footer = () => {
           </div>
 
           {/* External Review Link */}
-          <div style={{ marginTop: '4rem', padding: '2.5rem', background: 'rgba(0,0,0,0.2)', borderRadius: '24px', border: '1px dashed rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+          <div className="footer-external-block" style={{ marginTop: '4rem', padding: '2.5rem', background: 'rgba(0,0,0,0.2)', borderRadius: '24px', border: '1px dashed rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
             <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.9rem' }}>{t.fExternalPlatforms}</p>
             <a href="https://casino.ru/otzyvy-casino-grizzly/" target="_blank" rel="noopener noreferrer" style={{
               textDecoration: 'none', transition: '0.3s', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem'
             }}>
               <img src="https://casino.ru/wp-content/themes/casino.ru/assets/images/logo.svg" alt="Casino.ru" style={{ height: '30px', filter: 'brightness(0) invert(1)', opacity: 0.8 }} />
-              <span style={{ color: 'var(--primary)', fontSize: '0.95rem', fontWeight: 500, textDecoration: 'underline' }}>{t.fCasinoReviews} →</span>
+              <span className="footer-external-link" style={{ color: 'var(--primary)', fontWeight: 500, textDecoration: 'underline' }}>{t.fCasinoReviews}&nbsp;→</span>
             </a>
           </div>
         </div>

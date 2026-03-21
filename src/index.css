@@ -235,6 +235,10 @@ a {
   margin-bottom: 1rem;
 }
 
+.models-title {
+  margin: 0 auto 3.5rem;
+}
+
 /* Terms View Styles */
 .terms-view {
   min-height: 100vh;
@@ -289,7 +293,7 @@ a {
 }
 
 .section {
-  padding: 6rem 0;
+  padding: 4.5rem 0;
   position: relative;
 }
 
@@ -300,7 +304,7 @@ a {
 }
 
 .hero-section {
-  min-height: 90vh;
+  min-height: 100vh;
   padding-top: 100px;
 }
 
@@ -316,6 +320,10 @@ a {
 .hero-features {
   gap: 2rem;
   margin-bottom: 3.5rem;
+}
+
+.hero-btn-wrap {
+  margin-top: 2.5rem;
 }
 
 .hero-main-btn {
@@ -506,18 +514,15 @@ a {
   }
 
   .hero-section {
-    min-height: 100vh !important;
-    padding-top: clamp(110px, 15vh, 160px) !important;
-    /* Protects from .section padding override and scales nicely for tall devices */
-    padding-bottom: 140px !important;
+    min-height: auto !important;
+    padding-top: clamp(90px, 10vh, 120px) !important;
+    padding-bottom: 2rem !important;
     align-items: flex-start !important;
-    /* Anchors content to the top to prevent it from sliding under the navbar on short screens */
   }
 
   .hero-title {
     font-size: clamp(1.8rem, 9.2vw, 3.2rem) !important;
-    /* Reduced from 10.5vw to prevent single-word breakdown on 375px widths */
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.25rem !important;
     width: 100%;
     word-break: keep-all !important;
     /* Never split individual words */
@@ -527,17 +532,12 @@ a {
   .hero-subtitle {
     font-size: clamp(1.1rem, 5vw, 1.35rem) !important;
     margin-bottom: 1.5rem !important;
-    min-height: 6em !important;
+    min-height: 4.5em !important;
     /* Prevents height jumping during typing */
   }
 
-  .hero-features {
-    gap: 1rem !important;
-    margin: 0 auto 2.5rem auto !important;
-    display: inline-flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    text-align: left;
+  .hero-btn-wrap {
+    margin-top: 1.75rem !important;
   }
 
   .hero-main-btn {
@@ -555,7 +555,7 @@ a {
   .grid-4,
   .grid-benefits {
     grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
+    gap: 1rem !important;
   }
 
   .container {
@@ -563,7 +563,7 @@ a {
   }
 
   .section {
-    padding: 4rem 0;
+    padding: 1.75rem 0;
   }
 
   .hero-flex-mobile {
@@ -573,13 +573,56 @@ a {
     text-align: center !important;
   }
 
+  .player-feature-item {
+    padding-bottom: 0.75rem !important;
+    gap: 1rem !important;
+  }
+
+  .player-feature-text {
+    font-size: 0.85rem !important;
+    max-width: 80% !important;
+    margin-right: 1.5rem !important;
+  }
+
+  .player-feature-icon {
+    transform: scale(0.8) !important;
+  }
+
+  .pf-main-btn {
+    padding: 0.8rem 1.2rem !important;
+    font-size: 0.9rem !important;
+    max-width: 280px !important;
+    border-radius: 12px !important;
+  }
+
+  .pf-container {
+    padding: 1.5rem !important;
+    margin-top: 2rem !important;
+  }
+
+  .footer-external-block {
+    padding: 1.5rem !important;
+    margin-top: 2rem !important;
+    gap: 1rem !important;
+  }
+
+  .footer-external-link {
+    font-size: 0.85rem !important;
+    text-align: center;
+    line-height: 1.4;
+  }
+
   /* Fix padding for card content on mobile */
   .nova-card {
-    padding: 1.5rem !important;
+    padding: 1.25rem !important;
   }
 
   .min-h-auto-mobile {
     min-height: auto !important;
+  }
+
+  .models-title {
+    margin-bottom: 2rem !important;
   }
 }
 
