@@ -1,10 +1,11 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Percent, DollarSign, Settings, ShieldCheck,
   Trophy, Zap, Gift,
-  RotateCcw, Gamepad2, Phone, Megaphone,
-  BarChart, Target, ArrowUpRight, Users, MessageCircle
+  RotateCcw, Gamepad2, Megaphone,
+  BarChart, ArrowUpRight, Users, MessageCircle, Heart, Activity,
+  Mail, Send, MessageSquare, Star
 } from 'lucide-react';
 
 const translations = {
@@ -15,48 +16,84 @@ const translations = {
     navContacts: 'Контакты',
     navLogin: 'Вход',
     navReg: 'Регистрация',
+    navTerms: 'Условия оплаты',
     heroLine1: 'Монетизируй гемблинг',
     heroLine2: 'на максимум',
-    heroType: 'Прямой рекламодатель Grizzly Casino. Лей трафик на свежий бренд и забирай до 40% RevShare',
-    feature1: 'Мгновенная регистрация',
-    feature2: 'Персональный менеджер',
-    feature3: 'RevShare / CPA / Hybrid',
+    heroType: 'Прямой рекламодатель Grizzly Casino. Лей трафик на  НОВЫЙ БРЕНД и забирай до 70% RevShare',
+    feature1: 'Высокие конверсии для RU трафика',
+    feature2: 'Удобные payout-модели',
+    feature3: '',
     heroBtn: 'Регистрация в Grizzly',
     modelsTitle1: 'Высокие конверсии ',
-    modelsTitle2: 'для RU/CIS трафика и удобные payout-модели',
-    rsTitle: 'RS до 40%',
-    rsDesc: 'Без переноса минусов',
+    modelsTitle2: 'для RU трафика и удобные payout-модели',
+    rsTitle: 'Revenue Share (RS) до 70%',
+    rsShort: 'Revenue Share - это комиссионная модель, которая позволяет партнерам получать регулярный доход от прибыли онлайн казино.',
+    rsFull: `Revenue Share - это комиссионная модель, которая позволяет партнерам получать регулярный доход от прибыли онлайн казино. Расчет заработка Партнера по методу RevenueShare заключается в передаче Партнеру установленного процента от чистого дохода Казино (NGR) с каждого приведенного реферала в размере до 70% от NGR. 
+Размер вознаграждения каждого Партнера обсуждается отдельно и определяется его уровнем в Партнерской программе.
+Модель доступна каждому партнеру. Доступны фиксированная и динамическая ставки.
+
+1-й уровень - 30,00%, 0-5 FD, NGR – от 1.00 USD/EUR | 10,000 RUB
+2-й - 35,00%, 5-10 FD, NGR – 1.000 USD/EUR | 100,000 RUB
+3-й - 40,00%, 10-20 FD, NGR – 2.000 USD/EUR | 200,000 RUB
+4-й - 45,00%, 20-50 FD, NGR – 4.000 USD/EUR | 400,000 RUB
+5-й - 50,00%, 50-200 FD, NGR – 5.000 USD/EUR | 500,000 RUB
+6-й - 55,00%, 200+ FD, NGR – 10.000 USD/EUR | 1000,000 RUB
+
+Динамическая ставка устанавливается по результатам последнего отчетного периода и зависит от KPI.
+Размеры вознаграждения Партнера при использовании "брендового трафика" обсуждается отдельно.
+Изменение уровня Партнера возможно только 1-го числа каждого месяца. Уровень присваивается на период до 3-х (трех) месяцев. В случае, если показатели Партнера не соответствуют необходимым параметрам уровня (допускается индивидуальная погрешность в 10-15%), то процентная ставка Заработка может быть уменьшена.`,
     hybridTitle: 'Hybrid',
-    hybridDesc: 'Настроим гибкие комиссии под ваши источники',
-    cpaTitle: 'CPA до $100',
-    cpaDesc: 'Прозрачные KPI, быстрые выплаты до 2 раз в месяц',
+    hybridShort: 'Hybrid модель сочетает в себе RevShare + CPA, предлагая фиксированное вознаграждение за каждого подходящего игрока, а также дополнительный процент от NGR.',
+    hybridFull: 'Hybrid модель сочетает в себе RevShare + CPA, предлагая фиксированное вознаграждение за каждого подходящего игрока, а также дополнительный процент от NGR по предварительному согласованию с affiliate-менеджером.\n\nУсловия сотрудничества по модели Revenue Share + CPA обсуждаются с каждым Партнером индивидуально.\n\nОкно пост-клика- 30 дней.\n\nТестовые капы - 20-30 FD.\n\nОбе стороны должны обсудить все условия KPI для квалификации трафика до начала тестов. Целевая аудитория также должна быть согласована заранее.',
+    cpaTitle: 'CPA до 250 USD',
+    cpaShort: 'Забирай процент прибыли от твоих лидов. Фиксированная оплата / Прозрачные KPI / Быстрые выплаты',
+    cpaFull: `Метод CPA предполагает расчет вознаграждения Партнеру, исходя из фиксированной ставки за каждый первый депозит (FD), внесенный привлеченными рефералами. Модель доступна только активным Партнерам после оценки качества источников и самого трафика на индивидуальных условиях – с выплатой от 10 до 250 USD за один FD.
+    
+Окно пост-клика- 30 дней.
+
+Тестовые капы- 20-30 FD.
+Обе стороны должны обсудить все условия KPI для квалификации трафика до начала тестов. Целевая аудитория также должна быть согласована заранее.
+Важным условием смены метода Партнера с RS на модель CPA является осуществление проверки качества привлеченного трафика в тестовом режиме. Особое внимание, что признание трафика некачественным является основанием для отказа в переводе на модель CPA и предложения другой модели.
+В случае, если Партнер не дает согласия на проведение мероприятий по оценке качества трафика, то участие такого Партнера в Партнерской программе по методу CPA будет приостановлено или сотрудничество полностью прекращено.`,
     otherTitle: 'Прочие модели',
     otherDesc: 'Фиксы, флэты за листинги, гаранты – рассмотрим всё',
-    becomePartner: 'Стать партнёром',
-    pf1: 'До 15% кешбэка каждую неделю',
-    pf2: 'Депозиты и выводы без верификации',
-    pf3: 'Ежемесячный турнир на 2.000.000 рублей',
-    pf4: 'Выводы до 60 мин на карту, крипта — до 15 минут',
-    pf5: 'ТОП провайдеры, 8000+ слотов',
-    pf6: 'Колесо фортуны для стримеров',
+    becomePartner: 'Условия оплаты',
+    pf1: 'Депозиты и выводы без верификации.',
+    pf2: '10 уровней лояльности. VIP статус.',
+    pf3: 'До 15% кешбэк каждую неделю.',
+    pf4: 'Ежемесячные турниры (Возможны индивидуальные турниры).',
+    pf5: 'Быстрые выплаты от 5 минут. На карты от 30 минут',
+    pf6: 'Лицензия Anjouan.',
+    pf7: 'Более 8000 слотов, ТОП провайдеры.',
+    pf8: 'Колесо фортуны для стримеров.',
+    pf9: 'Еженедельные лотереи.',
+    pf10: 'Уникальные retention-решения с помощью email, telegram и тд.',
     pfText: 'Работаем с 2024 года, постоянно развиваем наш бренд. Регистрируйся в нашей партнерской программе и стань одним из тех, кто будет заливать на топовую базу.',
-    pfBtn: 'Получить эксклюзивные 40%',
+    pfBtn: 'Получить эксклюзивные 70%',
     abTitle: 'Быстрые и системные выплаты',
     abSub: 'без дополнительных комиссий',
-    ab1: 'Быстрые выплаты партнерам без лишних проверок',
-    ab2: 'Омниканальный ретеншен: звонки, рассылки, бонусы',
-    ab3: 'Инструменты для повышения конверта: ленды, колеса',
-    ab4: 'Revenue Share без переноса отрицательного баланса',
-    ab5: 'Своя платформа → никаких лишних комиссий',
-    ab6: 'Доверие к бренду за счет рекламы у стримеров',
-    ab7: 'Обновление статистики ПП в реальном времени',
-    ab8: 'Средний конверт Reg 2 Dep >35% (RU)',
+    ab1: 'Быстрые выплаты партнерам\nбез лишних проверок',
+    ab2: 'Сильные retention-решения\nдля удержания игроков',
+    ab3: 'Своя платформа – никаких лишних комиссий',
+    ab4: 'Доверие к бренду за счет рекламы у стримеров',
+    ab5: 'Обновление статистики ПП в реальном времени',
+    ab6: 'Revenue Share без переноса отрицательного баланса',
     fTitle: 'Контакты GRIZZLY',
     tgBtnGroup: 'Перейти в Telegram',
     tgBtnManager: 'Написать в Telegram',
     fRights: 'Все права защищены.',
     fGroupTitle: 'Наша группа',
-    fManagerTitle: 'Связаться с менеджером'
+    fManagerTitle: 'Связаться с менеджером',
+    fContactSupport: 'Связаться с нами',
+    fContactResources: 'Ресурсы',
+    fContactEmail: 'Почта',
+    fContactManager: 'Менеджер',
+    fContactGroup: 'Группа',
+    fContactFeedback: 'Отзывы',
+    fExternalPlatforms: 'Мы на других площадках:',
+    fCasinoReviews: 'Читать отзывы на casino.ru',
+    seoTitle: 'Grizzly Affiliate | Прямой рекламодатель Grizzly Casino',
+    seoDesc: 'Grizzly Affiliate — прямой рекламодатель Grizzly Casino. Лей трафик на свежий бренд с высокими конверсиями. Получай до 70% RevShare без переноса минусов или CPA до $250.'
   },
   en: {
     navModels: 'Payout Models',
@@ -65,48 +102,64 @@ const translations = {
     navContacts: 'Contacts',
     navLogin: 'Login',
     navReg: 'Sign Up',
+    navTerms: 'Payment Terms',
     heroLine1: 'Monetize gambling',
     heroLine2: 'to the maximum',
-    heroType: 'Direct advertiser for Grizzly Casino. Drive traffic to a fresh brand and get up to 40% RevShare',
-    feature1: 'Instant registration',
-    feature2: 'Personal manager',
-    feature3: 'RevShare / CPA / Hybrid',
+    heroType: 'Direct advertiser for Grizzly Casino. Drive traffic to a NEW BRAND and get up to 70% RevShare',
+    feature1: 'High conversions for RU traffic',
+    feature2: 'Convenient payout models',
+    feature3: '',
     heroBtn: 'Register in Grizzly',
     modelsTitle1: 'High conversions ',
-    modelsTitle2: 'for RU/CIS traffic and convenient payout models',
-    rsTitle: 'RS up to 40%',
-    rsDesc: 'No negative carryover',
+    modelsTitle2: 'for RU traffic and convenient payout models',
+    rsTitle: 'Revenue Share (RS) up to 70%',
+    rsShort: 'Revenue Share is a commission model that allows partners to receive regular income from online casino profits.',
+    rsFull: 'Detailed terms for RS...',
     hybridTitle: 'Hybrid',
-    hybridDesc: 'Flexible commissions tailored to your traffic sources',
-    cpaTitle: 'CPA up to $100',
-    cpaDesc: 'Transparent KPIs, fast payouts up to twice a month',
+    hybridShort: 'Hybrid model combines RevShare + CPA, offering fixed reward for each suitable player, plus additional percentage of NGR.',
+    hybridFull: 'Detailed terms for Hybrid...',
+    cpaTitle: 'CPA up to 250 USD',
+    cpaShort: 'Take a percentage of profit from your leads. Fixed pay / Transparent KPIs / Fast payouts',
+    cpaFull: 'Detailed terms for CPA...',
     otherTitle: 'Other models',
     otherDesc: 'Fixed fees, flat fees for listings, guarantees – we consider everything',
-    becomePartner: 'Become a Partner',
-    pf1: 'Up to 15% cashback every week',
-    pf2: 'Deposits and withdrawals without KYC',
-    pf3: 'Monthly tournament for €20,000',
-    pf4: 'Cards up to 60 mins, crypto up to 15 mins',
-    pf5: 'TOP providers, 8000+ slots',
-    pf6: 'Fortune wheel for streamers',
+    becomePartner: 'Payment Terms',
+    pf1: 'Deposits and withdrawals without KYC.',
+    pf2: '10 loyalty levels. VIP status.',
+    pf3: 'Up to 15% cashback every week.',
+    pf4: 'Monthly tournaments (Individual tournaments available).',
+    pf5: 'Fast payouts from 5 mins. To cards from 30 mins.',
+    pf6: 'Anjouan license.',
+    pf7: 'Over 8000 slots, TOP providers.',
+    pf8: 'Fortune wheel for streamers.',
+    pf9: 'Weekly lotteries.',
+    pf10: 'Unique retention solutions via email, telegram, etc.',
     pfText: 'We have been constantly developing our brand since 2024. Register in our affiliate program and become one of those who will drive traffic to a top-tier database.',
-    pfBtn: 'Get exclusive 40%',
+    pfBtn: 'Get exclusive 70%',
     abTitle: 'Fast and systemic payouts',
     abSub: 'without additional fees',
-    ab1: 'Fast payouts to partners without unnecessary checks',
-    ab2: 'Omnichannel retention: calls, mailings, bonuses',
-    ab3: 'Tools to increase conversion: landers, wheels',
-    ab4: 'Revenue Share without negative balance carryover',
-    ab5: 'Own platform → no extra fees',
-    ab6: 'Brand trust due to streaming ads',
-    ab7: 'Real-time affiliate program statistics update',
-    ab8: 'Average Reg 2 Dep conversion >35% (RU)',
+    ab1: 'Fast payouts to partners\nwithout unnecessary checks',
+    ab2: 'Strong retention solutions\nto keep players',
+    ab3: 'Own platform – no extra fees',
+    ab4: 'Brand trust due to streaming ads',
+    ab5: 'Real-time affiliate program statistics update',
+    ab6: 'Revenue Share without negative balance carryover',
     fTitle: 'GRIZZLY Contacts',
     tgBtnGroup: 'Open in Telegram',
     tgBtnManager: 'Write in Telegram',
     fRights: 'All rights reserved.',
     fGroupTitle: 'Our group',
-    fManagerTitle: 'Contact manager'
+    fManagerTitle: 'Contact manager',
+    fContactSupport: 'Contact Us',
+    fContactResources: 'Resources',
+    fContactEmail: 'Email',
+    fContactManager: 'Manager',
+    fContactGroup: 'Group',
+    fContactFeedback: 'Feedback',
+    fExternalPlatforms: 'External Platforms:',
+    fCasinoReviews: 'Read reviews on casino.ru',
+    seoTitle: 'Grizzly Affiliate | Direct Advertiser for Grizzly Casino',
+    seoDesc: 'Grizzly Affiliate is the direct advertiser for Grizzly Casino. Get up to 70% RevShare with no negative carryover or CPA up to $250.'
   }
 };
 
@@ -117,7 +170,7 @@ const LangContext = createContext<{ lang: Lang; setLang: (l: Lang) => void; t: t
   t: translations.ru
 });
 
-const Navbar = () => {
+const Navbar = ({ onTermsClick, onHomeClick }: { onTermsClick: () => void; onHomeClick: () => void }) => {
   const { lang, setLang, t } = useContext(LangContext);
 
   return (
@@ -134,37 +187,38 @@ const Navbar = () => {
       boxShadow: '0 4px 30px rgba(0, 0, 0, 0.5)'
     }}>
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer' }} onClick={onHomeClick}>
           <div style={{
-            width: 48, height: 48, borderRadius: 14,
+            width: 40, height: 40, borderRadius: 12,
             background: '#120d1a',
             border: '1px solid rgba(139, 61, 255, 0.15)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)'
+            boxShadow: 'inset 0 0 15px rgba(0,0,0,0.5)'
           }}>
-            <img src="/favicon.svg" alt="Grizzly Logo" style={{ width: 26, height: 26 }} />
+            <img src="/favicon.svg" alt="Grizzly Logo" style={{ width: 22, height: 22 }} />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            <span style={{ fontSize: '1.3rem', fontWeight: 800, letterSpacing: '0.5px', color: '#fff', textTransform: 'uppercase', lineHeight: 1 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            <span style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '0.4px', color: '#fff', textTransform: 'uppercase', lineHeight: 1, whiteSpace: 'nowrap' }}>
               Grizzly
             </span>
-            <span style={{ fontSize: '0.95rem', fontWeight: 500, color: 'var(--text-muted)', lineHeight: 1, letterSpacing: '0.2px', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-muted)', lineHeight: 1, letterSpacing: '0.1px', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
               affiliate
             </span>
           </div>
         </div>
-        <div className="desktop-only" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          <a href="#models" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>{t.navModels}</a>
-          <a href="#players" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>{t.navPlayers}</a>
-          <a href="#partners" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>{t.navPartners}</a>
-          <a href="#contacts" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>{t.navContacts}</a>
+        <div className="desktop-only" style={{ display: 'flex', gap: '1.15rem', alignItems: 'center' }}>
+          <a href="#models" onClick={(e) => { e.preventDefault(); onHomeClick(); setTimeout(() => document.getElementById('models')?.scrollIntoView({ behavior: 'smooth' }), 100); }} style={{ fontSize: '0.8rem', color: '#e5e5e5', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navModels}</a>
+          <button onClick={onTermsClick} style={{ background: 'none', border: 'none', padding: 0, fontSize: '0.8rem', color: '#e5e5e5', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navTerms}</button>
+          <a href="#players" onClick={(e) => { e.preventDefault(); onHomeClick(); setTimeout(() => document.getElementById('players')?.scrollIntoView({ behavior: 'smooth' }), 100); }} style={{ fontSize: '0.8rem', color: '#e5e5e5', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navPlayers}</a>
+          <a href="#partners" onClick={(e) => { e.preventDefault(); onHomeClick(); setTimeout(() => document.getElementById('partners')?.scrollIntoView({ behavior: 'smooth' }), 100); }} style={{ fontSize: '0.8rem', color: '#e5e5e5', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navPartners}</a>
+          <a href="#contacts" onClick={(e) => { e.preventDefault(); onHomeClick(); setTimeout(() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' }), 100); }} style={{ fontSize: '0.8rem', color: '#e5e5e5', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navContacts}</a>
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <div className="desktop-only" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <a href="https://a.grizzly-partner.com/welcome/login" className="btn btn-secondary glass-btn shine-effect" style={{ padding: '0.6rem 1.5rem', borderRadius: '12px' }}>{t.navLogin}</a>
-            <a href="https://a.grizzly-partner.com/welcome/register" className="btn btn-primary shine-effect" style={{ padding: '0.6rem 1.5rem', borderRadius: '12px', background: 'var(--primary)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.1)' }}>{t.navReg}</a>
-            <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.1)', margin: '0 0.5rem' }}></div>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          <div className="desktop-only" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            <a href="https://a.grizzly-partner.com/welcome/login" className="btn btn-secondary glass-btn shine-effect" style={{ padding: '0.55rem 1.2rem', borderRadius: '10px', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>{t.navLogin}</a>
+            <a href="https://a.grizzly-partner.com/welcome/register" className="btn btn-primary shine-effect" style={{ padding: '0.55rem 1.2rem', borderRadius: '10px', background: 'var(--primary)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.1)', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>{t.navReg}</a>
+            <div style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.1)', margin: '0 0.25rem' }}></div>
           </div>
 
           {/* Переключатель языка */}
@@ -183,6 +237,74 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+  );
+};
+
+const Modal = ({ isOpen, onClose, title, content }: { isOpen: boolean; onClose: () => void; title: string; content: string }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isOpen ? 1 : 0 }}
+      transition={{ duration: 0.3 }}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0, 0, 0, 0.8)',
+        backdropFilter: 'blur(10px)',
+        zIndex: 2000,
+        display: isOpen ? 'flex' : 'none',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1rem'
+      }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: isOpen ? 1 : 0.9, opacity: isOpen ? 1 : 0 }}
+        style={{
+          background: 'var(--card-bg)',
+          border: '1px solid var(--border-color)',
+          borderRadius: '24px',
+          maxWidth: '700px',
+          width: '100%',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          padding: '2.5rem',
+          position: 'relative',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.8)'
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1.5rem',
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-muted)',
+            fontSize: '2rem',
+            cursor: 'pointer'
+          }}
+        >
+          &times;
+        </button>
+        <h3 style={{ fontSize: '1.75rem', marginBottom: '1.5rem', color: 'var(--primary)' }}>{title}</h3>
+        <div style={{
+          fontSize: '1rem',
+          lineHeight: 1.6,
+          color: '#e5e5e5',
+          whiteSpace: 'pre-line'
+        }}>
+          {content}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
@@ -345,10 +467,12 @@ const Hero = () => {
             <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)' }} />
             {t.feature2}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)' }} />
-            {t.feature3}
-          </div>
+          {t.feature3 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)' }} />
+              {t.feature3}
+            </div>
+          )}
         </motion.div>
 
         <motion.div
@@ -388,7 +512,7 @@ const Hero = () => {
   );
 };
 
-const PaymentModels = () => {
+const PaymentModels = ({ onTermsClick }: { onTermsClick: () => void }) => {
   const { t } = useContext(LangContext);
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth <= 1024 : false);
 
@@ -398,15 +522,23 @@ const PaymentModels = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const [activeModal, setActiveModal] = useState<{ title: string; content: string } | null>(null);
+
   const models = [
-    { title: t.rsTitle, desc: t.rsDesc, icon: <Percent size={24} /> },
-    { title: t.hybridTitle, desc: t.hybridDesc, icon: <Settings size={24} /> },
-    { title: t.cpaTitle, desc: t.cpaDesc, icon: <DollarSign size={24} /> },
-    { title: t.otherTitle, desc: t.otherDesc, icon: <ShieldCheck size={24} /> }
+    { title: t.rsTitle, desc: t.rsShort, full: t.rsFull, icon: <Percent size={24} /> },
+    { title: t.hybridTitle, desc: t.hybridShort, full: t.hybridFull, icon: <Settings size={24} /> },
+    { title: t.cpaTitle, desc: t.cpaShort, full: t.cpaFull, icon: <DollarSign size={24} /> },
+    { title: t.otherTitle, desc: t.otherDesc, icon: <ShieldCheck size={24} />, isStatic: true }
   ];
 
   return (
     <section id="models" className="section">
+      <Modal
+        isOpen={!!activeModal}
+        onClose={() => setActiveModal(null)}
+        title={activeModal?.title || ''}
+        content={activeModal?.content || ''}
+      />
       <div className="container">
         <h2 className="heading-lg text-center" style={{ maxWidth: '600px', margin: '0 auto 5rem' }}>
           {t.modelsTitle1} <br />
@@ -416,13 +548,12 @@ const PaymentModels = () => {
         <div className="min-h-auto-mobile" style={{ position: 'relative', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <motion.div
             className="desktop-only"
-            initial={{ scale: 0.8, opacity: 0, rotate: 15 }}
-            whileInView={{ scale: 1, opacity: 1, rotate: 15 }}
-            animate={{ y: [0, -20, 0] }}
+            initial={{ scale: 0.8, opacity: 0, rotate: 15, y: 0 }}
+            whileInView={{ scale: 1, opacity: 1, rotate: 15, y: [0, -20, 0] }}
             transition={{
               scale: { duration: 0.6 },
               opacity: { duration: 0.6 },
-              y: { repeat: Infinity, duration: 6, ease: "easeInOut" }
+              y: { repeat: Infinity, duration: 6, ease: "easeInOut", delay: 0.6 }
             }}
             viewport={{ once: true }}
             style={{
@@ -439,78 +570,229 @@ const PaymentModels = () => {
 
           <div className="grid-models" style={{ display: 'grid', gap: '6rem', justifyContent: 'space-between', width: '100%', position: 'relative', zIndex: 2 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-              <motion.div
-                initial={isMobile ? { opacity: 0, y: 15 } : { x: -50, opacity: 0 }}
-                whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1 }}
-                animate={isMobile ? {} : { y: [0, -10, 0] }}
-                transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 5, ease: "easeInOut" } }}
-                viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
-                className="nova-card"
-              >
-                <div className="nova-icon-box">{models[0].icon}</div>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{models[0].title}</h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>{models[0].desc}</p>
-              </motion.div>
-              <motion.div
-                initial={isMobile ? { opacity: 0, y: 15 } : { x: -50, opacity: 0 }}
-                whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1 }}
-                animate={isMobile ? {} : { y: [0, -10, 0] }}
-                transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { delay: 0.2, x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 } }}
-                viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
-                className="nova-card"
-              >
-                <div className="nova-icon-box">{models[2].icon}</div>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{models[2].title}</h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>{models[2].desc}</p>
-              </motion.div>
+              {[models[0], models[2]].map((m, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={isMobile ? { opacity: 0, y: 15 } : { x: -50, opacity: 0, y: 0 }}
+                  whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1, y: [0, -10, 0] }}
+                  transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { x: { duration: 1, ease: "easeOut", delay: idx * 0.2 }, opacity: { duration: 1, ease: "easeOut", delay: idx * 0.2 }, y: { repeat: Infinity, duration: 5 + idx, ease: "easeInOut", delay: 1 } }}
+                  viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
+                  className="nova-card payment-card"
+                  onClick={() => !m.isStatic && setActiveModal({ title: m.title, content: m.full || '' })}
+                  style={{ cursor: m.isStatic ? 'default' : 'pointer', flex: 1 }}
+                >
+                  <div className="payment-card-header">
+                    <div className="nova-icon-box" style={{ marginBottom: 0 }}>{m.icon}</div>
+                    <h3 style={{ margin: 0 }}>{m.title}</h3>
+                  </div>
+                  <p className="payment-card-desc">{m.desc}</p>
+                  {!m.isStatic && (
+                    <div className="learn-more-hint">Подробнее</div>
+                  )}
+                </motion.div>
+              ))}
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-              <motion.div
-                initial={isMobile ? { opacity: 0, y: 15 } : { x: 50, opacity: 0 }}
-                whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1 }}
-                animate={isMobile ? {} : { y: [0, -12, 0] }}
-                transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 } }}
-                viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
-                className="nova-card"
-              >
-                <div className="nova-icon-box">{models[1].icon}</div>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{models[1].title}</h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>{models[1].desc}</p>
-              </motion.div>
-              <motion.div
-                initial={isMobile ? { opacity: 0, y: 15 } : { x: 50, opacity: 0 }}
-                whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1 }}
-                animate={isMobile ? {} : { y: [0, -8, 0] }}
-                transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { delay: 0.2, x: { duration: 0.5 }, opacity: { duration: 0.5 }, y: { repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 1.5 } }}
-                viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
-                className="nova-card"
-              >
-                <div className="nova-icon-box">{models[3].icon}</div>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{models[3].title}</h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>{models[3].desc}</p>
-              </motion.div>
+              {[models[1], models[3]].map((m, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={isMobile ? { opacity: 0, y: 15 } : { x: 50, opacity: 0, y: 0 }}
+                  whileInView={isMobile ? { opacity: 1, y: 0 } : { x: 0, opacity: 1, y: [0, -12, 0] }}
+                  transition={isMobile ? { duration: 0.4, ease: "easeOut" } : { x: { duration: 1, ease: "easeOut", delay: idx * 0.2 }, opacity: { duration: 1, ease: "easeOut", delay: idx * 0.2 }, y: { repeat: Infinity, duration: 6 + idx, ease: "easeInOut", delay: 1 } }}
+                  viewport={{ once: true, margin: isMobile ? "-20px" : "0px" }}
+                  className="nova-card payment-card"
+                  onClick={() => !m.isStatic && setActiveModal({ title: m.title, content: m.full || '' })}
+                  style={{ cursor: m.isStatic ? 'default' : 'pointer', flex: 1 }}
+                >
+                  <div className="payment-card-header">
+                    <div className="nova-icon-box" style={{ marginBottom: 0 }}>{m.icon}</div>
+                    <h3 style={{ margin: 0 }}>{m.title}</h3>
+                  </div>
+                  <p className="payment-card-desc">{m.desc}</p>
+                  {!m.isStatic && (
+                    <div className="learn-more-hint">Подробнее</div>
+                  )}
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
 
         <div className="text-center" style={{ marginTop: '5rem' }}>
-          <a href="https://a.grizzly-partner.com/welcome/register" className="btn btn-primary" style={{ padding: '1rem 3rem' }}>{t.becomePartner}</a>
+          <button onClick={onTermsClick} className="btn btn-primary" style={{ padding: '1rem 3rem' }}>{t.becomePartner}</button>
         </div>
       </div>
     </section>
   );
 };
 
+const TermsView = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { lang } = useContext(LangContext);
+
+  const content = {
+    ru: {
+      title: 'Условия оплаты',
+      rsTitle: 'Revenue Share',
+      rsPoints: [
+        'Отчетный период, установленный Партнерской Программой, равен половине календарного месяца: с 1-го по 15-е число месяца, и с 16-го по 30/31-е число месяца.',
+        'Начисления за прошедший отчетный период производятся до 5 рабочих дней после окончания отчетного периода.',
+        'Партнерские выплаты могут быть не выплачены в срок по причинам проверки источников трафика партнеров или из-за подозрительной активности игроков Партнера.',
+        'Минимальная возможная выплата с партнерского счета составляет 15 USD/EUR, 1.000 RUB, 500 UAH, 5.000 KZT или эквивалента в иных валютах',
+        'Отрицательный баланс переноситься на следующий отчетный период.',
+        'Смена платежных реквизитов осуществляется минимум за 5 рабочих дня, до окончания текущего отчетного периода.',
+        'Аккаунты Партнеров, которые длительное время не посещали свой личный кабинет в Партнерской Программе и не отвечают на сообщения, могут быть заморожены. Это связано с тем, что такие аккаунты больше прочих подвержены мошенническим действиям третьих лиц.',
+        'Для восстановления доступа к аккаунту, необходимо будет пройти процедуру верификации аккаунта.',
+        'Партнерская Программа оставляет за собой право не выплачивать партнерский доход за игроков-фродеров.'
+      ],
+      cpaTitle: 'CPA и Hybrid',
+      cpaPoints: [
+        'Отчетный период, установленный Партнерской Программой по данным методам, равен 30 дней.',
+        'Ни один из видов запрещенного трафика, в случае обнаружения, оплачиваться не будет. Партнерская Программа имеет право продлить период холда или отклонить некоторые конверсии по собственному усмотрению.',
+        'Выплата производится после аналитики трафика. В случае подозрения на фрод, компания оставляет за собой право захолдировать выплату партнеру.',
+        'Если CPA-трафик по объективным причинам признан некачественным, партнерская программа оставляет за собой право оплатить такой трафик по RevShare.',
+        'Дальнейшие условия, такие как источники трафика, лимиты и ставки обсуждаются после проведения тестов и анализа результатов. Оверкапы могут быть не оплачены даже при хорошем качестве трафика.',
+        'Любая из сторон может потребовать изменения условий соглашения в течение 14 дней до начала нового месяца.',
+        'В случае прекращения сотрудничества возможны 2 варианта развития событий:',
+        'Все FD подлежат оплате до момента прекращения сотрудничества. Игроки, которые зарегистрировались после момента прекращения сотрудничества, не подлежат оплате.',
+        'В случае мошенничества или запрещенного трафика, все FD не подлежат оплате.'
+      ],
+      qualityTitle: 'Требования к качеству трафика',
+      qualityPoints: [
+        'Общий объем дубликатов и самоисключений не должен превышать 15-20%.',
+        'Среднее количество депозитов приведенных игроков должно быть не менее 1,5.'
+      ],
+      prohibitedTitle: 'Запрещенный трафик',
+      prohibitedPoints: [
+        'Мотивированный трафик по СРА и Hybrid является запрещенным. Включает в себя любой трафик, привлеченный по схеме "обыграть/обмануть казино".',
+        'Вводящие в заблуждение (заведомо неправильная информация о казино: бонусы за регистрацию, завышение процента фактических бонусов, количества FS и т.д.).',
+        'Фрод (несколько аккаунтов, аномально высокий процент Bonus Hunter и т.д.).',
+        'Брендовый трафик любого вида (контекстная реклама, SEO).',
+        'Трафик с поддельных аккаунтов в соцсетях наших проектов или тех, которые ассоциируются с официальными (использование логотипов, официального брендинга, обращение от имени казино и т.д.).',
+        'Личные аккаунты в Telegram, Instagram или TikTok.'
+      ],
+      expandText: 'Предоставление партнером заведомо неправдивой информации об источниках трафика, влечет за собой блокировку аккаунта. Партнерская Программа GRIZZLY не предоставляет Партнерам конфиденциальную информацию и статистику привлеченных игроков, кроме той, которую Партнер может самостоятельно видеть в личном кабинете Партнерской программы. В случае мошенничества или привлечения запрещенного трафика, Партнерская Программа немедленно расторгает CPA-соглашение и оставляет за собой право заморозить баланс Партнера на неопределенный срок до выяснения ситуации. Во избежание серьезных финансовых потерь обеих сторон, выплаты по новым FD, привлеченным после расторжения CPA-соглашения, могут быть пересчитаны в соответствии с комиссионной моделью RevShare.\n\nCPA и Hybrid модели могут быть деактивированы Партнерской Программой, если любая из них приносит отрицательную прибыль казино или Партнерской Программе в течение нескольких отчетных периодов. Кроме того, с момента прекращения действия модели CPA игроки, приведенные с соблюдением условий для модели CPA, не могут быть учтены в вознаграждении Партнера.\n\nВ случае снижения качества трафика Партнерская Программа письменно информирует Партнера об этом, после чего принимает решение либо о прекращении сотрудничества, либо об оптимизации потоков трафика. Кроме того, может быть принято обоюдное решение о продолжении сотрудничества с новыми квалификационными условиями или с базовым уровнем. Уведомление должно быть сделано не менее, чем за 2 дня до расторжения договора CPA или изменения условий сотрудничества.'
+    },
+    en: {
+      title: 'Payment Terms',
+      rsTitle: 'Revenue Share',
+      rsPoints: [
+        'The reporting period is half a calendar month: 1st-15th and 16th-30/31st.',
+        'Payouts are processed within 5 business days after the period ends.',
+        'Min payout: 15 USD/EUR or equivalent.'
+      ],
+      cpaTitle: 'CPA and Hybrid',
+      cpaPoints: [
+        'Reporting period: 30 days.',
+        'Prohibited traffic will not be paid.'
+      ],
+      qualityTitle: 'Quality Requirements',
+      qualityPoints: [
+        'Duplicates should not exceed 15-20%.',
+        'Average deposits per player >= 1.5.'
+      ],
+      prohibitedTitle: 'Prohibited Traffic',
+      prohibitedPoints: [
+        'Incentivized traffic, motivated schemes.',
+        'Misleading information.',
+        'Fraud, multi-accounting.',
+        'Brand traffic (context, SEO).'
+      ],
+      expandText: 'Detailed legal information about traffic quality and fraud prevention...'
+    }
+  }[lang];
+
+  return (
+    <div className="terms-view" style={{ paddingTop: '120px', paddingBottom: '100px' }}>
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="nova-card"
+          style={{ padding: '3rem' }}
+        >
+          <h1 className="heading-lg" style={{ color: 'var(--primary)', marginBottom: '3rem' }}>{content.title}</h1>
+
+          <div className="terms-section">
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#fff' }}>{content.rsTitle}</h2>
+            <ul className="terms-list">
+              {content.rsPoints.map((p, i) => <li key={i}>{p}</li>)}
+            </ul>
+          </div>
+
+          <div className="terms-section" style={{ marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#fff' }}>{content.cpaTitle}</h2>
+            <ul className="terms-list">
+              {content.cpaPoints.map((p, i) => <li key={i}>{p}</li>)}
+            </ul>
+          </div>
+
+          <div className="terms-section" style={{ marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#fff' }}>{content.qualityTitle}</h2>
+            <ul className="terms-list">
+              {content.qualityPoints.map((p, i) => <li key={i}>{p}</li>)}
+            </ul>
+          </div>
+
+          <div className="terms-section" style={{ marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#fff' }}>{content.prohibitedTitle}</h2>
+            <ul className="terms-list">
+              {content.prohibitedPoints.map((p, i) => <li key={i}>{p}</li>)}
+            </ul>
+          </div>
+
+          <div className="terms-expandable" style={{ marginTop: '3rem' }}>
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="btn-secondary"
+              style={{
+                background: 'rgba(139, 61, 255, 0.1)',
+                border: '1px solid var(--primary)',
+                padding: '0.8rem 2rem',
+                borderRadius: '12px',
+                color: 'var(--primary)',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              {isExpanded ? (lang === 'ru' ? 'Скрыть' : 'Hide') : (lang === 'ru' ? 'Подробнее' : 'Show details')}
+            </button>
+
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  style={{ overflow: 'hidden', marginTop: '1.5rem' }}
+                >
+                  <div style={{ color: 'var(--text-muted)', lineHeight: 1.8, whiteSpace: 'pre-line', padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px' }}>
+                    {content.expandText}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 const PlayersFeatures = () => {
   const { t } = useContext(LangContext);
   const features = [
-    { text: t.pf1, icon: <RotateCcw size={32} /> },
-    { text: t.pf2, icon: <ShieldCheck size={32} /> },
-    { text: t.pf3, icon: <Trophy size={32} /> },
-    { text: t.pf4, icon: <Zap size={32} /> },
-    { text: t.pf5, icon: <Gamepad2 size={32} /> },
-    { text: t.pf6, icon: <Gift size={32} /> },
+    { text: t.pf1, icon: <ShieldCheck size={32} /> },
+    { text: t.pf2, icon: <Trophy size={32} /> },
+    { text: t.pf3, icon: <RotateCcw size={32} /> },
+    { text: t.pf4, icon: <Activity size={32} /> },
+    { text: t.pf5, icon: <Zap size={32} /> },
+    { text: t.pf6, icon: <ShieldCheck size={32} /> },
+    { text: t.pf7, icon: <Gamepad2 size={32} /> },
+    { text: t.pf8, icon: <Gift size={32} /> },
+    { text: t.pf9, icon: <Trophy size={32} /> },
+    { text: t.pf10, icon: <MessageCircle size={32} /> },
   ];
 
   return (
@@ -527,11 +809,11 @@ const PlayersFeatures = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="nova-card" style={{ padding: '3rem 4rem' }}>
-          <div className="grid-2" style={{ display: 'grid', gap: '4rem 6rem' }}>
+          <div className="grid-2-to-1" style={{ display: 'grid', gap: '2rem 6rem' }}>
             {features.map((f, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem' }}>
-                <p style={{ fontWeight: 500, fontSize: '1rem', maxWidth: '280px', margin: 0, lineHeight: 1.4 }}>{f.text}</p>
-                <div style={{ color: 'var(--primary)', opacity: 0.8, transform: 'scale(1.2)' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1rem' }}>
+                <p style={{ fontWeight: 500, fontSize: '1rem', maxWidth: '320px', margin: 0, lineHeight: 1.4, color: '#e5e5e5' }}>{f.text}</p>
+                <div style={{ color: 'var(--primary)', opacity: 0.8, transform: 'scale(1)' }}>
                   {f.icon}
                 </div>
               </div>
@@ -554,13 +836,11 @@ const AffiliateBenefits = () => {
   const { t } = useContext(LangContext);
   const benefits = [
     { text: t.ab1, icon: <DollarSign size={24} /> },
-    { text: t.ab2, icon: <Phone size={24} /> },
-    { text: t.ab3, icon: <Gift size={24} /> },
-    { text: t.ab4, icon: <Percent size={24} /> },
-    { text: t.ab5, icon: <Zap size={24} /> },
-    { text: t.ab6, icon: <Megaphone size={24} /> },
-    { text: t.ab7, icon: <BarChart size={24} /> },
-    { text: t.ab8, icon: <Target size={24} /> },
+    { text: t.ab2, icon: <Heart size={24} /> },
+    { text: t.ab3, icon: <Zap size={24} /> },
+    { text: t.ab4, icon: <Megaphone size={24} /> },
+    { text: t.ab5, icon: <BarChart size={24} /> },
+    { text: t.ab6, icon: <Percent size={24} /> },
   ];
 
   return (
@@ -571,18 +851,18 @@ const AffiliateBenefits = () => {
           {t.abSub}
         </h2>
 
-        <div className="grid-4" style={{ display: 'grid', gap: '1px', border: '1px solid rgba(139, 61, 255, 0.1)', borderRadius: '16px', overflow: 'hidden', background: 'rgba(139, 61, 255, 0.1)' }}>
+        <div className="grid-benefits" style={{ display: 'grid', gap: '1px', border: '1px solid rgba(139, 61, 255, 0.1)', borderRadius: '16px', overflow: 'hidden', background: 'rgba(139, 61, 255, 0.1)' }}>
           {benefits.map((b, i) => (
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              key={i} style={{ padding: '4rem 2rem', background: 'var(--card-bg)', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              key={i} style={{ padding: '3.5rem 2rem', background: 'var(--card-bg)', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <div className="nova-icon-box" style={{ marginBottom: '1.5rem', transform: 'scale(1.2)' }}>
                 {b.icon}
               </div>
-              <p style={{ fontSize: '0.9rem', lineHeight: 1.5, color: '#e5e5e5' }}>
+              <p style={{ fontSize: '1.1rem', lineHeight: 1.4, color: '#fff', whiteSpace: 'pre-line', fontWeight: 500 }}>
                 {b.text}
               </p>
             </motion.div>
@@ -599,37 +879,87 @@ const Footer = () => {
   return (
     <footer id="contacts" style={{ paddingTop: '6rem', paddingBottom: '3rem', position: 'relative' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        <div className="nova-card" style={{ padding: '4rem', textAlign: 'center', background: 'linear-gradient(180deg, rgba(20, 10, 35, 0.8) 0%, rgba(10, 5, 20, 0.9) 100%)' }}>
-          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', fontWeight: 700, marginBottom: '4rem', letterSpacing: '-0.02em' }}>{t.fTitle}</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginBottom: '2rem', maxWidth: '800px', margin: '0 auto 2rem' }}>
-            <a href="https://t.me/grizzly_casino" target="_blank" rel="noopener noreferrer" className="contact-card shine-effect" style={{
-              padding: '3rem 2rem',
-              borderRadius: '24px',
-              background: 'rgba(139, 61, 255, 0.05)',
-              border: '1px solid rgba(139, 61, 255, 0.1)',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
-              textDecoration: 'none'
-            }}>
-              <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg, #a769ff 0%, #7622ff 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', boxShadow: '0 0 25px rgba(139, 61, 255, 0.4)' }}>
-                <Users size={36} color="white" />
-              </div>
-              <h3 style={{ fontSize: '1.5rem', color: 'white', marginBottom: '0.5rem', fontWeight: 700 }}>{t.fGroupTitle}</h3>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '0', fontSize: '1rem' }}>{t.tgBtnGroup}</p>
-            </a>
+        <div className="nova-card" style={{ padding: '3.5rem 4rem', background: 'linear-gradient(180deg, rgba(20, 10, 35, 0.8) 0%, rgba(10, 5, 20, 0.9) 100%)' }}>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.2rem)', fontWeight: 700, marginBottom: '3.5rem', letterSpacing: '-0.01em', textAlign: 'center' }}>{t.fTitle}</h2>
 
-            <a href="https://t.me/grizzly_casino" target="_blank" rel="noopener noreferrer" className="contact-card shine-effect" style={{
-              padding: '3rem 2rem',
-              borderRadius: '24px',
-              background: 'rgba(139, 61, 255, 0.05)',
-              border: '1px solid rgba(139, 61, 255, 0.1)',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
-              textDecoration: 'none'
-            }}>
-              <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg, #a769ff 0%, #7622ff 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', boxShadow: '0 0 25px rgba(139, 61, 255, 0.4)' }}>
-                <MessageCircle size={36} color="white" />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', textAlign: 'left', maxWidth: '1000px', margin: '0 auto' }}>
+            {/* Communication Column */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+                <div style={{ width: 44, height: 44, borderRadius: '12px', background: 'rgba(139, 61, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <MessageSquare size={20} color="var(--primary)" />
+                </div>
+                <h3 style={{ fontSize: '1.2rem', color: 'white', margin: 0, fontWeight: 700 }}>{t.fContactSupport}</h3>
               </div>
-              <h3 style={{ fontSize: '1.5rem', color: 'white', marginBottom: '0.5rem', fontWeight: 700 }}>{t.fManagerTitle}</h3>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '0', fontSize: '1rem' }}>{t.tgBtnManager}</p>
+
+              <a href="mailto:affiliate@grizzly.bingo" className="shine-effect" style={{
+                padding: '1.25rem 1.5rem',
+                borderRadius: '16px',
+                background: 'rgba(139, 61, 255, 0.05)',
+                border: '1px solid rgba(139, 61, 255, 0.1)',
+                display: 'flex', alignItems: 'center', gap: '1rem',
+                textDecoration: 'none', transition: '0.3s'
+              }}>
+                <Mail size={18} color="var(--primary)" />
+                <span style={{ color: '#e5e5e5', fontSize: '0.95rem' }}>{t.fContactEmail}: affiliate@grizzly.bingo</span>
+              </a>
+
+              <a href="https://t.me/grzl_supp" target="_blank" rel="noopener noreferrer" className="shine-effect" style={{
+                padding: '1.25rem 1.5rem',
+                borderRadius: '16px',
+                background: 'rgba(139, 61, 255, 0.05)',
+                border: '1px solid rgba(139, 61, 255, 0.1)',
+                display: 'flex', alignItems: 'center', gap: '1.1rem',
+                textDecoration: 'none', transition: '0.3s'
+              }}>
+                <Send size={18} color="var(--primary)" />
+                <span style={{ color: '#fff', fontSize: '0.95rem', fontWeight: 500 }}>{t.fContactManager}: @grzl_supp</span>
+              </a>
+            </div>
+
+            {/* Resources Column */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+                <div style={{ width: 44, height: 44, borderRadius: '12px', background: 'rgba(139, 61, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Users size={20} color="var(--primary)" />
+                </div>
+                <h3 style={{ fontSize: '1.2rem', color: 'white', margin: 0, fontWeight: 700 }}>{t.fContactResources}</h3>
+              </div>
+
+              <a href="https://t.me/grizzly_casino" target="_blank" rel="noopener noreferrer" className="shine-effect" style={{
+                padding: '1.25rem 1.5rem',
+                borderRadius: '16px',
+                background: 'rgba(139, 61, 255, 0.05)',
+                border: '1px solid rgba(139, 61, 255, 0.1)',
+                display: 'flex', alignItems: 'center', gap: '1rem',
+                textDecoration: 'none', transition: '0.3s'
+              }}>
+                <Send size={18} color="var(--primary)" />
+                <span style={{ color: '#e5e5e5', fontSize: '0.95rem' }}>{t.fContactGroup}: @grizzly_casino</span>
+              </a>
+
+              <a href="https://t.me/grizzly_feedback" target="_blank" rel="noopener noreferrer" className="shine-effect" style={{
+                padding: '1.25rem 1.5rem',
+                borderRadius: '16px',
+                background: 'rgba(139, 61, 255, 0.05)',
+                border: '1px solid rgba(139, 61, 255, 0.1)',
+                display: 'flex', alignItems: 'center', gap: '1rem',
+                textDecoration: 'none', transition: '0.3s'
+              }}>
+                <Star size={18} color="var(--primary)" />
+                <span style={{ color: '#e5e5e5', fontSize: '0.95rem' }}>{t.fContactFeedback}: @grizzly_feedback</span>
+              </a>
+            </div>
+          </div>
+
+          {/* External Review Link */}
+          <div style={{ marginTop: '4rem', padding: '2.5rem', background: 'rgba(0,0,0,0.2)', borderRadius: '24px', border: '1px dashed rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.9rem' }}>{t.fExternalPlatforms}</p>
+            <a href="https://casino.ru/otzyvy-casino-grizzly/" target="_blank" rel="noopener noreferrer" style={{
+              textDecoration: 'none', transition: '0.3s', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem'
+            }}>
+              <img src="https://casino.ru/wp-content/themes/casino.ru/assets/images/logo.svg" alt="Casino.ru" style={{ height: '30px', filter: 'brightness(0) invert(1)', opacity: 0.8 }} />
+              <span style={{ color: 'var(--primary)', fontSize: '0.95rem', fontWeight: 500, textDecoration: 'underline' }}>{t.fCasinoReviews} →</span>
             </a>
           </div>
         </div>
@@ -654,35 +984,84 @@ const getInitialLang = (): Lang => {
 
 function App() {
   const [lang, setLangState] = useState<Lang>(getInitialLang);
+  const [view, setView] = useState<'home' | 'terms'>('home');
 
   useEffect(() => {
     const path = window.location.pathname;
-    if (!path.startsWith('/ru') && !path.startsWith('/en')) {
-      window.history.replaceState(null, '', `/${lang}${window.location.search}${window.location.hash}`);
+
+    // Language and URL enforcement
+    const isTerms = path.includes('/terms');
+    if (isTerms) setView('terms');
+
+    // Ensure URL has lang prefix for SEO
+    const hasLangPrefix = path.startsWith('/ru') || path.startsWith('/en');
+    if (!hasLangPrefix) {
+      const suffix = isTerms ? '/terms' : '';
+      window.history.replaceState(null, '', `/${lang}${suffix}${window.location.search}${window.location.hash}`);
     }
 
     const handlePopState = () => {
       const currentPath = window.location.pathname;
-      if (currentPath.startsWith('/ru')) setLangState('ru');
-      else if (currentPath.startsWith('/en')) setLangState('en');
+      if (currentPath.includes('/terms')) setView('terms');
+      else setView('home');
+
+      if (currentPath.includes('/ru')) setLangState('ru');
+      else if (currentPath.includes('/en')) setLangState('en');
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, [lang]);
 
+  // Dynamic SEO
+  useEffect(() => {
+    const t = translations[lang];
+    document.title = t.seoTitle + (view === 'terms' ? ` | ${t.navTerms}` : '');
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', t.seoDesc);
+
+    // Update canonical if needed
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    const suffix = view === 'terms' ? '/terms' : '';
+    canonical.setAttribute('href', `https://grizzly-affiliate.com/${lang}${suffix}`);
+  }, [lang, view]);
+
   const setLang = (newLang: Lang) => {
     if (newLang === lang) return;
     setLangState(newLang);
-    window.history.pushState(null, '', `/${newLang}${window.location.search}${window.location.hash}`);
+    const suffix = view === 'terms' ? '/terms' : '';
+    window.history.pushState(null, '', `/${newLang}${suffix}${window.location.search}${window.location.hash}`);
+  };
+
+  const showTerms = () => {
+    setView('terms');
+    window.history.pushState(null, '', `/${lang}/terms`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const showHome = () => {
+    setView('home');
+    window.history.pushState(null, '', `/${lang}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <LangContext.Provider value={{ lang, setLang, t: translations[lang] }}>
-      <Navbar />
-      <Hero />
-      <PaymentModels />
-      <PlayersFeatures />
-      <AffiliateBenefits />
+      <Navbar onTermsClick={showTerms} onHomeClick={showHome} />
+      {view === 'home' ? (
+        <>
+          <Hero />
+          <PaymentModels onTermsClick={showTerms} />
+          <PlayersFeatures />
+          <AffiliateBenefits />
+        </>
+      ) : (
+        <TermsView />
+      )}
       <Footer />
 
       {/* Mobile Bottom Bar */}
