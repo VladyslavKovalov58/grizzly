@@ -245,6 +245,10 @@ a {
   background: radial-gradient(circle at top right, rgba(139, 61, 255, 0.05), transparent 600px);
 }
 
+.terms-section {
+  scroll-margin-top: 15rem;
+}
+
 .terms-section h2 {
   position: relative;
   padding-left: 1rem;
@@ -474,9 +478,6 @@ a {
   grid-template-columns: minmax(250px, 400px) minmax(250px, 400px);
 }
 
-.grid-benefits {
-  grid-template-columns: repeat(3, 1fr);
-}
 
 .grid-2 {
   grid-template-columns: repeat(2, 1fr);
@@ -552,8 +553,7 @@ a {
   .grid-models,
   .grid-2,
   .grid-2-to-1,
-  .grid-4,
-  .grid-benefits {
+  .grid-4 {
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
   }

@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Percent, DollarSign, Settings, ShieldCheck,
   Trophy, Zap, Gift,
-  RotateCcw, Gamepad2, Megaphone,
-  BarChart, ArrowUpRight, Users, MessageCircle, Heart, Activity,
+  RotateCcw, Gamepad2,
+  ArrowUpRight, Users, MessageCircle, Activity,
   Mail, Send, MessageSquare, Star
 } from 'lucide-react';
 
@@ -12,7 +12,6 @@ const translations = {
   ru: {
     navModels: 'Модели выплат',
     navPlayers: 'Для игроков',
-    navPartners: 'Для партнёров',
     navContacts: 'Контакты',
     navLogin: 'Вход',
     navReg: 'Регистрация',
@@ -58,34 +57,32 @@ const translations = {
     otherTitle: 'Прочие модели',
     otherDesc: 'Фиксы, флэты за листинги, гаранты – рассмотрим всё',
     becomePartner: 'Условия оплаты',
-    pf1: 'Депозиты и выводы без верификации.',
-    pf2: '10 уровней лояльности. VIP статус.',
-    pf3: 'До 15% кешбэк каждую неделю.',
-    pf4: 'Ежемесячные турниры (Возможны индивидуальные турниры).',
-    pf5: 'Быстрые выплаты от 5 минут. На карты от 30 минут',
-    pf6: 'Лицензия Anjouan.',
-    pf7: 'Более 8000 слотов, ТОП провайдеры.',
-    pf8: 'Колесо фортуны для стримеров.',
-    pf9: 'Еженедельные лотереи.',
-    pf10: 'Уникальные retention-решения с помощью email, telegram и тд.',
+    rsTermsBtn: 'Условия по RS',
+    cpaTermsBtn: 'Условия по CPA/HYBRID',
+    qualityTitle: 'Требования к качеству трафика',
+    qualityPoint1: 'Общий объем дубликатов и самоисключений не должен превышать 15-20%.',
+    qualityPoint2: 'Среднее количество депозитов приведенных игроков должно быть не менее 1,5.',
+    prohibitedTitle: 'Запрещенный трафик',
+    prohibitedBtn: 'Запрещенный трафик',
+    pf1: 'Депозиты и выводы без верификации',
+    pf2: 'VIP статус – 10 уровней',
+    pf3: 'До 15% CashBack каждую неделю',
+    pf4: 'Регулярные турниры',
+    pf5: 'Быстрые выплаты от 3 минут',
+    pf6: 'Лицензия Anjouan',
+    pf7: 'Более 8000 слотов, ТОП провайдеры',
+    pf8: 'Колесо фортуны для стримеров',
+    pf9: 'Еженедельные лотереи',
+    pf10: 'Сильные retention-решения',
     pfText: 'Работаем с 2024 года, постоянно развиваем наш бренд. Регистрируйся в нашей партнерской программе и стань одним из тех, кто будет заливать на топовую базу.',
     pfBtn: 'Получить эксклюзивные условия',
-    abTitle: 'Быстрые и системные выплаты',
-    abSub: 'без дополнительных комиссий',
-    ab1: 'Быстрые выплаты партнерам\nбез лишних проверок',
-    ab2: 'Сильные retention-решения\nдля удержания игроков',
-    ab3: 'Своя платформа – никаких лишних комиссий',
-    ab4: 'Доверие к бренду за счет рекламы у стримеров',
-    ab5: 'Обновление статистики ПП в реальном времени',
-    ab6: 'Revenue Share без переноса отрицательного баланса',
-    fTitle: 'Контакты GRIZZLY',
     tgBtnGroup: 'Перейти в Telegram',
     tgBtnManager: 'Написать в Telegram',
     fRights: 'Все права защищены.',
     fGroupTitle: 'Наша группа',
     fManagerTitle: 'Связаться с менеджером',
     fContactSupport: 'Связаться с нами',
-    fContactResources: 'Ресурсы',
+    fContactResources: 'Каналы',
     fContactEmail: 'Почта',
     fContactManager: 'Менеджер',
     fContactGroup: 'Группа',
@@ -98,7 +95,6 @@ const translations = {
   en: {
     navModels: 'Payout Models',
     navPlayers: 'For Players',
-    navPartners: 'For Partners',
     navContacts: 'Contacts',
     navLogin: 'Login',
     navReg: 'Sign Up',
@@ -124,34 +120,32 @@ const translations = {
     otherTitle: 'Other models',
     otherDesc: 'Fixed fees, flat fees for listings, guarantees – we consider everything',
     becomePartner: 'Payment Terms',
-    pf1: 'Deposits and withdrawals without KYC.',
-    pf2: '10 loyalty levels. VIP status.',
-    pf3: 'Up to 15% cashback every week.',
-    pf4: 'Monthly tournaments (Individual tournaments available).',
-    pf5: 'Fast payouts from 5 mins. To cards from 30 mins.',
-    pf6: 'Anjouan license.',
-    pf7: 'Over 8000 slots, TOP providers.',
-    pf8: 'Fortune wheel for streamers.',
-    pf9: 'Weekly lotteries.',
-    pf10: 'Unique retention solutions via email, telegram, etc.',
+    rsTermsBtn: 'RS Terms',
+    cpaTermsBtn: 'CPA/HYBRID Terms',
+    qualityTitle: 'Traffic Quality Requirements',
+    qualityPoint1: 'The total volume of duplicates and self-exclusions should not exceed 15-20%.',
+    qualityPoint2: 'Average number of deposits from players should be at least 1.5.',
+    prohibitedTitle: 'Prohibited Traffic',
+    prohibitedBtn: 'Prohibited Traffic',
+    pf1: 'Deposits and withdrawals without KYC',
+    pf2: 'VIP status – 10 levels',
+    pf3: 'Up to 15% CashBack every week',
+    pf4: 'Regular tournaments',
+    pf5: 'Fast payouts from 3 minutes',
+    pf6: 'Anjouan license',
+    pf7: 'Over 8000 slots, TOP providers',
+    pf8: 'Fortune wheel for streamers',
+    pf9: 'Weekly lotteries',
+    pf10: 'Strong retention solutions',
     pfText: 'We have been constantly developing our brand since 2024. Register in our affiliate program and become one of those who will drive traffic to a top-tier database.',
     pfBtn: 'Get exclusive conditions',
-    abTitle: 'Fast and systemic payouts',
-    abSub: 'without additional fees',
-    ab1: 'Fast payouts to partners\nwithout unnecessary checks',
-    ab2: 'Strong retention solutions\nto keep players',
-    ab3: 'Own platform – no extra fees',
-    ab4: 'Brand trust due to streaming ads',
-    ab5: 'Real-time affiliate program statistics update',
-    ab6: 'Revenue Share without negative balance carryover',
-    fTitle: 'GRIZZLY Contacts',
     tgBtnGroup: 'Open in Telegram',
     tgBtnManager: 'Write in Telegram',
     fRights: 'All rights reserved.',
     fGroupTitle: 'Our group',
     fManagerTitle: 'Contact manager',
     fContactSupport: 'Contact Us',
-    fContactResources: 'Resources',
+    fContactResources: 'Channels',
     fContactEmail: 'Email',
     fContactManager: 'Manager',
     fContactGroup: 'Group',
@@ -210,7 +204,6 @@ const Navbar = ({ onTermsClick, onHomeClick }: { onTermsClick: () => void; onHom
           <a href="#models" onClick={(e) => { e.preventDefault(); onHomeClick(); setTimeout(() => document.getElementById('models')?.scrollIntoView({ behavior: 'smooth' }), 100); }} style={{ fontSize: '0.8rem', color: '#e5e5e5', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navModels}</a>
           <button onClick={onTermsClick} style={{ background: 'none', border: 'none', padding: 0, fontSize: '0.8rem', color: '#e5e5e5', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navTerms}</button>
           <a href="#players" onClick={(e) => { e.preventDefault(); onHomeClick(); setTimeout(() => document.getElementById('players')?.scrollIntoView({ behavior: 'smooth' }), 100); }} style={{ fontSize: '0.8rem', color: '#e5e5e5', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navPlayers}</a>
-          <a href="#partners" onClick={(e) => { e.preventDefault(); onHomeClick(); setTimeout(() => document.getElementById('partners')?.scrollIntoView({ behavior: 'smooth' }), 100); }} style={{ fontSize: '0.8rem', color: '#e5e5e5', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navPartners}</a>
           <a href="#contacts" onClick={(e) => { e.preventDefault(); onHomeClick(); setTimeout(() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' }), 100); }} style={{ fontSize: '0.8rem', color: '#e5e5e5', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.navContacts}</a>
         </div>
 
@@ -482,7 +475,7 @@ const Hero = () => {
   );
 };
 
-const PaymentModels = ({ onTermsClick }: { onTermsClick: () => void }) => {
+const PaymentModels = ({ onTermsClick }: { onTermsClick: (id?: string) => void }) => {
   const { t } = useContext(LangContext);
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth <= 1024 : false);
 
@@ -589,8 +582,9 @@ const PaymentModels = ({ onTermsClick }: { onTermsClick: () => void }) => {
           </div>
         </div>
 
-        <div className="text-center btn-margin-top" style={{ marginTop: '2.5rem' }}>
-          <button onClick={onTermsClick} className="btn btn-primary" style={{ padding: '1rem 3rem' }}>{t.becomePartner}</button>
+        <div className="text-center btn-margin-top" style={{ marginTop: '2.5rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button onClick={() => onTermsClick('terms-rs')} className="btn btn-primary" style={{ padding: '1rem 2rem' }}>{t.rsTermsBtn}</button>
+          <button onClick={() => onTermsClick('terms-cpa')} className="btn btn-primary" style={{ padding: '1rem 2rem' }}>{t.cpaTermsBtn}</button>
         </div>
       </div>
     </section>
@@ -628,12 +622,12 @@ const TermsView = () => {
         'Все FD подлежат оплате до момента прекращения сотрудничества. Игроки, которые зарегистрировались после момента прекращения сотрудничества, не подлежат оплате.',
         'В случае мошенничества или запрещенного трафика, все FD не подлежат оплате.'
       ],
-      qualityTitle: 'Требования к качеству трафика',
+      qualityTitle: translations[lang].qualityTitle,
       qualityPoints: [
-        'Общий объем дубликатов и самоисключений не должен превышать 15-20%.',
-        'Среднее количество депозитов приведенных игроков должно быть не менее 1,5.'
+        translations[lang].qualityPoint1,
+        translations[lang].qualityPoint2
       ],
-      prohibitedTitle: 'Запрещенный трафик',
+      prohibitedTitle: translations[lang].prohibitedTitle,
       prohibitedPoints: [
         'Мотивированный трафик по СРА и Hybrid является запрещенным. Включает в себя любой трафик, привлеченный по схеме "обыграть/обмануть казино".',
         'Вводящие в заблуждение (заведомо неправильная информация о казино: бонусы за регистрацию, завышение процента фактических бонусов, количества FS и т.д.).',
@@ -657,12 +651,12 @@ const TermsView = () => {
         'Reporting period: 30 days.',
         'Prohibited traffic will not be paid.'
       ],
-      qualityTitle: 'Quality Requirements',
+      qualityTitle: translations[lang].qualityTitle,
       qualityPoints: [
-        'Duplicates should not exceed 15-20%.',
-        'Average deposits per player >= 1.5.'
+        translations[lang].qualityPoint1,
+        translations[lang].qualityPoint2
       ],
-      prohibitedTitle: 'Prohibited Traffic',
+      prohibitedTitle: translations[lang].prohibitedTitle,
       prohibitedPoints: [
         'Incentivized traffic, motivated schemes.',
         'Misleading information.',
@@ -684,14 +678,14 @@ const TermsView = () => {
         >
           <h1 className="heading-lg" style={{ color: 'var(--primary)', marginBottom: '3rem' }}>{content.title}</h1>
 
-          <div className="terms-section">
+          <div className="terms-section" id="terms-rs">
             <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#fff' }}>{content.rsTitle}</h2>
             <ul className="terms-list">
               {content.rsPoints.map((p, i) => <li key={i}>{p}</li>)}
             </ul>
           </div>
 
-          <div className="terms-section" style={{ marginTop: '3rem' }}>
+          <div className="terms-section" id="terms-cpa" style={{ marginTop: '3rem' }}>
             <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#fff' }}>{content.cpaTitle}</h2>
             <ul className="terms-list">
               {content.cpaPoints.map((p, i) => <li key={i}>{p}</li>)}
@@ -705,7 +699,7 @@ const TermsView = () => {
             </ul>
           </div>
 
-          <div className="terms-section" style={{ marginTop: '3rem' }}>
+          <div className="terms-section" id="terms-prohibited" style={{ marginTop: '3rem' }}>
             <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#fff' }}>{content.prohibitedTitle}</h2>
             <ul className="terms-list">
               {content.prohibitedPoints.map((p, i) => <li key={i}>{p}</li>)}
@@ -798,42 +792,109 @@ const PlayersFeatures = () => {
     </section>
   );
 };
-
-const AffiliateBenefits = () => {
+const TrafficQuality = ({ onTermsClick }: { onTermsClick: (id?: string) => void }) => {
   const { t } = useContext(LangContext);
-  const benefits = [
-    { text: t.ab1, icon: <DollarSign size={24} /> },
-    { text: t.ab2, icon: <Heart size={24} /> },
-    { text: t.ab3, icon: <Zap size={24} /> },
-    { text: t.ab4, icon: <Megaphone size={24} /> },
-    { text: t.ab5, icon: <BarChart size={24} /> },
-    { text: t.ab6, icon: <Percent size={24} /> },
-  ];
-
   return (
-    <section id="partners" className="section">
-      <div className="container">
-        <div className="grid-benefits" style={{ display: 'grid', gap: '1px', border: '1px solid rgba(139, 61, 255, 0.1)', borderRadius: '16px', overflow: 'hidden', background: 'rgba(139, 61, 255, 0.1)' }}>
-          {benefits.map((b, i) => (
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              key={i} style={{ padding: '3.5rem 2rem', background: 'var(--card-bg)', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <div className="nova-icon-box" style={{ marginBottom: '1.5rem', transform: 'scale(1.2)' }}>
-                {b.icon}
+    <section className="section" style={{ position: 'relative', paddingTop: '2rem', paddingBottom: '2rem' }}>
+      <div className="container" style={{ maxWidth: '800px' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="nova-card"
+          style={{
+            padding: '2.5rem 3rem',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, rgba(139, 61, 255, 0.08) 0%, rgba(10, 5, 20, 0.9) 100%)',
+            border: '1px solid rgba(139, 61, 255, 0.15)',
+            boxShadow: '0 15px 40px rgba(0, 0, 0, 0.4)'
+          }}
+        >
+          <div style={{ marginBottom: '2rem' }}>
+            <h2 className="heading-lg" style={{
+              color: 'var(--primary)',
+              marginBottom: '0.75rem',
+              fontSize: '1.6rem',
+              textShadow: '0 0 20px rgba(139, 61, 255, 0.3)'
+            }}>
+              {t.qualityTitle}
+            </h2>
+            <div style={{ width: '40px', height: '2px', background: 'var(--primary)', margin: '0 auto', borderRadius: '2px', opacity: 0.5 }}></div>
+          </div>
+
+          <div style={{ textAlign: 'left', marginBottom: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div style={{
+              display: 'flex',
+              gap: '1.25rem',
+              background: 'rgba(255,255,255,0.02)',
+              padding: '1.25rem 1.75rem',
+              borderRadius: '16px',
+              border: '1px solid rgba(255,255,255,0.04)',
+              alignItems: 'center'
+            }}>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                background: 'rgba(139, 61, 255, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                border: '1px solid rgba(139, 61, 255, 0.2)'
+              }}>
+                <span style={{ color: 'var(--primary)', fontWeight: 800, fontSize: '1.1rem' }}>1</span>
               </div>
-              <p style={{ fontSize: '1.1rem', lineHeight: 1.4, color: '#fff', whiteSpace: 'pre-line', fontWeight: 500 }}>
-                {b.text}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+              <p style={{ margin: 0, color: '#f1f1f1', fontSize: '1.05rem', lineHeight: 1.5, fontWeight: 500 }}>{t.qualityPoint1}</p>
+            </div>
+
+            <div style={{
+              display: 'flex',
+              gap: '1.25rem',
+              background: 'rgba(255,255,255,0.02)',
+              padding: '1.25rem 1.75rem',
+              borderRadius: '16px',
+              border: '1px solid rgba(255,255,255,0.04)',
+              alignItems: 'center'
+            }}>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                background: 'rgba(139, 61, 255, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                border: '1px solid rgba(139, 61, 255, 0.2)'
+              }}>
+                <span style={{ color: 'var(--primary)', fontWeight: 800, fontSize: '1.1rem' }}>2</span>
+              </div>
+              <p style={{ margin: 0, color: '#f1f1f1', fontSize: '1.05rem', lineHeight: 1.5, fontWeight: 500 }}>{t.qualityPoint2}</p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => onTermsClick('terms-prohibited')}
+            className="btn btn-secondary glass-btn shine-effect"
+            style={{
+              padding: '0.8rem 3rem',
+              fontSize: '1rem',
+              borderRadius: '12px',
+              border: '1px solid rgba(139, 61, 255, 0.4)',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}
+          >
+            {t.prohibitedBtn}
+          </button>
+        </motion.div>
       </div>
     </section>
   );
 };
+
 
 const Footer = () => {
   const { t } = useContext(LangContext);
@@ -842,7 +903,6 @@ const Footer = () => {
     <footer id="contacts" style={{ paddingTop: '6rem', paddingBottom: '3rem', position: 'relative' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <div className="nova-card" style={{ padding: '3.5rem 4rem', background: 'linear-gradient(180deg, rgba(20, 10, 35, 0.8) 0%, rgba(10, 5, 20, 0.9) 100%)' }}>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.2rem)', fontWeight: 700, marginBottom: '3.5rem', letterSpacing: '-0.01em', textAlign: 'center' }}>{t.fTitle}</h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', textAlign: 'left', maxWidth: '1000px', margin: '0 auto' }}>
             {/* Communication Column */}
@@ -999,10 +1059,16 @@ function App() {
     window.history.pushState(null, '', `/${newLang}${suffix}${window.location.search}${window.location.hash}`);
   };
 
-  const showTerms = () => {
+  const showTerms = (sectionId?: string) => {
     setView('terms');
-    window.history.pushState(null, '', `/${lang}/terms`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.history.pushState(null, '', `/${lang}/terms${sectionId ? '#' + sectionId : ''}`);
+    if (sectionId) {
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const showHome = () => {
@@ -1018,8 +1084,8 @@ function App() {
         <>
           <Hero />
           <PaymentModels onTermsClick={showTerms} />
+          <TrafficQuality onTermsClick={showTerms} />
           <PlayersFeatures />
-          <AffiliateBenefits />
         </>
       ) : (
         <TermsView />
