@@ -57,7 +57,7 @@ const translations = {
     otherTitle: 'Прочие модели',
     otherDesc: 'Фиксы, флэты за листинги, гаранты – рассмотрим всё',
     becomePartner: 'Условия оплаты',
-    rsTermsBtn: 'Условия по RS',
+    rsTermsBtn: 'Условия по RevShare',
     cpaTermsBtn: 'Условия по CPA/HYBRID',
     qualityTitle: 'Требования к качеству трафика',
     qualityPoint1: 'Общий объем дубликатов и самоисключений не должен превышать 15-20%.',
@@ -120,7 +120,7 @@ const translations = {
     otherTitle: 'Other models',
     otherDesc: 'Fixed fees, flat fees for listings, guarantees – we consider everything',
     becomePartner: 'Payment Terms',
-    rsTermsBtn: 'RS Terms',
+    rsTermsBtn: 'RevShare Terms',
     cpaTermsBtn: 'CPA/HYBRID Terms',
     qualityTitle: 'Traffic Quality Requirements',
     qualityPoint1: 'The total volume of duplicates and self-exclusions should not exceed 15-20%.',
@@ -583,8 +583,8 @@ const PaymentModels = ({ onTermsClick }: { onTermsClick: (id?: string) => void }
         </div>
 
         <div className="text-center btn-margin-top" style={{ marginTop: '2.5rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={() => onTermsClick('terms-rs')} className="btn btn-primary" style={{ padding: '1rem 2rem' }}>{t.rsTermsBtn}</button>
-          <button onClick={() => onTermsClick('terms-cpa')} className="btn btn-primary" style={{ padding: '1rem 2rem' }}>{t.cpaTermsBtn}</button>
+          <button onClick={() => onTermsClick('terms-rs')} className="btn btn-primary" style={{ padding: '1rem 2rem', minWidth: '280px' }}>{t.rsTermsBtn}</button>
+          <button onClick={() => onTermsClick('terms-cpa')} className="btn btn-primary" style={{ padding: '1rem 2rem', minWidth: '280px' }}>{t.cpaTermsBtn}</button>
         </div>
       </div>
     </section>
