@@ -48,9 +48,9 @@ const translations = {
     cpaShort: 'Забирай процент прибыли от твоих лидов. Фиксированная оплата / Прозрачные KPI / Быстрые выплаты',
     cpaFull: `Метод CPA предполагает расчет вознаграждения Партнеру, исходя из фиксированной ставки за каждый первый депозит (FD), внесенный привлеченными рефералами. Модель доступна только активным Партнерам после оценки качества источников и самого трафика на индивидуальных условиях – с выплатой от 10 до 250 USD за один FD.
     
-Окно пост-клика- 30 дней.
+Окно пост-клика - 30 дней.
 
-Тестовые капы- 20-30 FD.
+Тестовые капы - 20-30 FD.
 Обе стороны должны обсудить все условия KPI для квалификации трафика до начала тестов. Целевая аудитория также должна быть согласована заранее.
 Важным условием смены метода Партнера с RS на модель CPA является осуществление проверки качества привлеченного трафика в тестовом режиме. Особое внимание, что признание трафика некачественным является основанием для отказа в переводе на модель CPA и предложения другой модели.
 В случае, если Партнер не дает согласия на проведение мероприятий по оценке качества трафика, то участие такого Партнера в Партнерской программе по методу CPA будет приостановлено или сотрудничество полностью прекращено.`,
@@ -90,7 +90,10 @@ const translations = {
     fExternalPlatforms: 'Мы на других площадках:',
     fCasinoReviews: 'Читать отзывы на casino.ru',
     seoTitle: 'Grizzly Affiliate | Прямой рекламодатель Grizzly Casino',
-    seoDesc: 'Grizzly Affiliate — прямой рекламодатель Grizzly Casino. Лей трафик на свежий бренд с высокими конверсиями. Получай до 70% RevShare без переноса минусов или CPA до $250.'
+    seoDesc: 'Grizzly Affiliate — прямой рекламодатель Grizzly Casino. Лей трафик на свежий бренд с высокими конверсиями. Получай до 70% RevShare без переноса минусов или CPA до $250.',
+    learnMore: 'Подробнее',
+    hide: 'Скрыть',
+    showDetails: 'Подробнее'
   },
   en: {
     navModels: 'Payout Models',
@@ -110,13 +113,41 @@ const translations = {
     modelsTitle2: 'for RU traffic and convenient payout models',
     rsTitle: 'Revenue Share (RS) up to 70%',
     rsShort: 'Revenue Share is a commission model that allows partners to receive regular income from online casino profits.',
-    rsFull: 'Detailed terms for RS...',
+    rsFull: `Revenue Share is a commission model that allows partners to receive regular income from online casino profits. Calculating Partner earnings using the RevenueShare method consists of transferring to the Partner a set percentage of the Casino's Net Gaming Revenue (NGR) from each referred player, up to 70% of NGR. 
+The amount of reward for each Partner is discussed separately and determined by their level in the Affiliate Program.
+The model is available to every partner. Fixed and dynamic rates are available.
+
+Level 1 - 30.00%, 0-5 FD, NGR – from 1.00 USD/EUR | 10,000 RUB
+Level 2 - 35.00%, 5-10 FD, NGR – 1,000 USD/EUR | 100,000 RUB
+Level 3 - 40.00%, 10-20 FD, NGR – 2,000 USD/EUR | 200,000 RUB
+Level 4 - 45.00%, 20-50 FD, NGR – 4,000 USD/EUR | 400,000 RUB
+Level 5 - 50.00%, 50-200 FD, NGR – 5,000 USD/EUR | 500,000 RUB
+Level 6 - 55.00%, 200+ FD, NGR – 10,000 USD/EUR | 1,000,000 RUB
+
+The dynamic rate is set based on the results of the last reporting period and depends on KPI.
+Partner reward sizes when using "brand traffic" are discussed separately.
+Changing the Partner level is possible only on the 1st of each month. The level is assigned for a period of up to 3 (three) months. If the Partner's indicators do not match the required level parameters (an individual margin of error of 10-15% is allowed), the percentage rate of Earnings may be reduced.`,
     hybridTitle: 'Hybrid',
     hybridShort: 'Hybrid model combines RevShare + CPA, offering fixed reward for each suitable player, plus additional percentage of NGR.',
-    hybridFull: 'Detailed terms for Hybrid...',
+    hybridFull: `The Hybrid model combines RevShare + CPA, offering a fixed reward for each qualified player, as well as an additional percentage of NGR by prior agreement with the affiliate manager.
+
+Terms of cooperation under the Revenue Share + CPA model are discussed with each Partner individually.
+
+Post-click window - 30 days.
+
+Test caps - 20-30 FD.
+
+Both parties must discuss all KPI conditions for traffic qualification before the start of tests. The target audience must also be agreed upon in advance.`,
     cpaTitle: 'CPA up to 250 USD',
     cpaShort: 'Take a percentage of profit from your leads. Fixed pay / Transparent KPIs / Fast payouts',
-    cpaFull: 'Detailed terms for CPA...',
+    cpaFull: `The CPA method involves calculating the reward to the Partner based on a fixed rate for each first deposit (FD) made by referred players. The model is available only to active Partners after assessing the quality of sources and the traffic itself on individual terms – with a payout from 10 to 250 USD per FD.
+
+Post-click window - 30 days.
+
+Test caps - 20-30 FD.
+Both parties must discuss all KPI conditions for traffic qualification before the start of tests. The target audience must also be agreed upon in advance.
+An important condition for changing the Partner's method from RS to the CPA model is the quality check of the attracted traffic in test mode. Special attention should be paid to the fact that recognizing traffic as of poor quality is grounds for refusing to switch to the CPA model and offering another model.
+If the Partner does not consent to the traffic quality assessment measures, the participation of such a Partner in the Affiliate Program using the CPA method will be suspended or cooperation completely terminated.`,
     otherTitle: 'Other models',
     otherDesc: 'Fixed fees, flat fees for listings, guarantees – we consider everything',
     becomePartner: 'Payment Terms',
@@ -153,7 +184,10 @@ const translations = {
     fExternalPlatforms: 'External Platforms:',
     fCasinoReviews: 'Read reviews on casino.ru',
     seoTitle: 'Grizzly Affiliate | Direct Advertiser for Grizzly Casino',
-    seoDesc: 'Grizzly Affiliate is the direct advertiser for Grizzly Casino. Get up to 70% RevShare with no negative carryover or CPA up to $250.'
+    seoDesc: 'Grizzly Affiliate is the direct advertiser for Grizzly Casino. Get up to 70% RevShare with no negative carryover or CPA up to $250.',
+    learnMore: 'Learn More',
+    hide: 'Hide',
+    showDetails: 'Show details'
   }
 };
 
@@ -438,19 +472,19 @@ const Hero = () => {
         </motion.div>
 
         <motion.div
-            key={lang + '-btn'}
-            className="hero-btn-wrap"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 2.8 }}
+          key={lang + '-btn'}
+          className="hero-btn-wrap"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 2.8 }}
+        >
+          <a
+            href="https://a.grizzly-partner.com/welcome/register"
+            className="btn btn-primary shine-effect hero-main-btn"
           >
-            <a
-              href="https://a.grizzly-partner.com/welcome/register"
-              className="btn btn-primary shine-effect hero-main-btn"
-            >
-              {t.heroBtn}
-            </a>
-          </motion.div>
+            {t.heroBtn}
+          </a>
+        </motion.div>
       </div>
 
       <motion.div
@@ -550,7 +584,7 @@ const PaymentModels = ({ onTermsClick }: { onTermsClick: (id?: string) => void }
                   </div>
                   <p className="payment-card-desc">{m.desc}</p>
                   {!m.isStatic && (
-                    <div className="learn-more-hint">Подробнее</div>
+                    <div className="learn-more-hint">{t.learnMore}</div>
                   )}
                 </motion.div>
               ))}
@@ -574,7 +608,7 @@ const PaymentModels = ({ onTermsClick }: { onTermsClick: (id?: string) => void }
                   </div>
                   <p className="payment-card-desc">{m.desc}</p>
                   {!m.isStatic && (
-                    <div className="learn-more-hint">Подробнее</div>
+                    <div className="learn-more-hint">{t.learnMore}</div>
                   )}
                 </motion.div>
               ))}
@@ -593,7 +627,7 @@ const PaymentModels = ({ onTermsClick }: { onTermsClick: (id?: string) => void }
 
 const TermsView = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { lang } = useContext(LangContext);
+  const { lang, t } = useContext(LangContext);
 
   const content = {
     ru: {
@@ -642,14 +676,27 @@ const TermsView = () => {
       title: 'Payment Terms',
       rsTitle: 'Revenue Share',
       rsPoints: [
-        'The reporting period is half a calendar month: 1st-15th and 16th-30/31st.',
-        'Payouts are processed within 5 business days after the period ends.',
-        'Min payout: 15 USD/EUR or equivalent.'
+        'The reporting period established by the Affiliate Program is equal to half of a calendar month: from the 1st to the 15th of the month, and from the 16th to the 30/31st of the month.',
+        'Accruals for the past reporting period are made up to 5 business days after the end of the reporting period.',
+        'Affiliate payouts may not be paid on time due to verification of affiliate traffic sources or suspicious activity of the Affiliate\'s players.',
+        'The minimum possible payout from an affiliate account is 15 USD/EUR, 1,000 RUB, 500 UAH, 5,000 KZT or equivalent in other currencies.',
+        'Negative balance is carried over to the next reporting period.',
+        'Change of payment details is carried out at least 5 business days before the end of the current reporting period.',
+        'Partner accounts that have not visited their personal account in the Affiliate Program for a long time and do not respond to messages may be frozen. This is due to the fact that such accounts are more susceptible to fraudulent activities by third parties than others.',
+        'To restore access to the account, it will be necessary to go through the account verification procedure.',
+        'The Affiliate Program reserves the right not to pay affiliate income for fraudster players.'
       ],
       cpaTitle: 'CPA and Hybrid',
       cpaPoints: [
-        'Reporting period: 30 days.',
-        'Prohibited traffic will not be paid.'
+        'The reporting period established by the Affiliate Program for these methods is 30 days.',
+        'None of the types of prohibited traffic, if detected, will be paid for. The Affiliate Program has the right to extend the hold period or reject some conversions at its own discretion.',
+        'Payout is made after traffic analytics. In case of suspicion of fraud, the company reserves the right to hold the payout to the partner.',
+        'If CPA traffic is found to be of poor quality for objective reasons, the affiliate program reserves the right to pay for such traffic via RevShare.',
+        'Further conditions, such as traffic sources, limits and rates, are discussed after testing and analysis of the results. Overcaps may not be paid even with good traffic quality.',
+        'Either party may request changes to the terms of the agreement within 14 days before the start of a new month.',
+        'In case of termination of cooperation, 2 scenarios are possible:',
+        'All FDs are subject to payment until the termination of cooperation. Players who registered after the moment of termination of cooperation are not subject to payment.',
+        'In case of fraud or prohibited traffic, all FDs are not subject to payment.'
       ],
       qualityTitle: translations[lang].qualityTitle,
       qualityPoints: [
@@ -658,12 +705,18 @@ const TermsView = () => {
       ],
       prohibitedTitle: translations[lang].prohibitedTitle,
       prohibitedPoints: [
-        'Incentivized traffic, motivated schemes.',
-        'Misleading information.',
-        'Fraud, multi-accounting.',
-        'Brand traffic (context, SEO).'
+        'Incentivized traffic on CPA and Hybrid is prohibited. Includes any traffic attracted according to the "beat/cheat the casino" scheme.',
+        'Misleading (deliberately incorrect information about the casino: registration bonuses, overstating the percentage of actual bonuses, number of FS, etc.).',
+        'Fraud (multiple accounts, abnormally high percentage of Bonus Hunters, etc.).',
+        'Brand traffic of any kind (contextual advertising, SEO).',
+        'Traffic from fake accounts on social networks of our projects or those associated with official ones (using logos, official branding, contacting on behalf of the casino, etc.).',
+        'Personal accounts in Telegram, Instagram or TikTok.'
       ],
-      expandText: 'Detailed legal information about traffic quality and fraud prevention...'
+      expandText: `Providing deliberately false information about traffic sources by the partner entails account blocking. The GRIZZLY Affiliate Program does not provide Partners with confidential information and statistics of attracted players, except for that which the Partner can independently see in the personal account of the Affiliate Program. In case of fraud or attracting prohibited traffic, the Affiliate Program immediately terminates the CPA agreement and reserves the right to freeze the Partner's balance indefinitely until the situation is clarified. To avoid serious financial losses for both parties, payouts for new FDs attracted after the termination of the CPA agreement may be recalculated in accordance with the RevShare commission model.
+
+CPA and Hybrid models may be deactivated by the Affiliate Program if either of them brings negative profit to the casino or the Affiliate Program for several reporting periods. In addition, from the moment the CPA model is terminated, players brought in compliance with the conditions for the CPA model cannot be accounted for in the Partner's reward.
+
+In case of a decrease in traffic quality, the Affiliate Program informs the Partner about this in writing, after which it makes a decision either to terminate cooperation or to optimize traffic flows. In addition, a mutual decision may be made to continue cooperation with new qualification conditions or with a base level. Notification must be made at least 2 days before the termination of the CPA agreement or change in the terms of cooperation.`
     }
   }[lang];
 
@@ -720,7 +773,7 @@ const TermsView = () => {
                 cursor: 'pointer'
               }}
             >
-              {isExpanded ? (lang === 'ru' ? 'Скрыть' : 'Hide') : (lang === 'ru' ? 'Подробнее' : 'Show details')}
+              {isExpanded ? t.hide : t.showDetails}
             </button>
 
             <AnimatePresence>
